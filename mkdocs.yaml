@@ -1,0 +1,37 @@
+site_name: "мыш"
+site_description: "мыш документация"
+site_url: "https://mouseml.github.io/blog"
+repo_url: "https://github.com/mouseml/blog"
+nav:
+  - 'index.md'
+  - Блог:
+    - blog/index.md
+theme:
+  name: 'material'
+  language: 'ru'
+  palette:
+    - media: '(prefers-color-scheme: light)'
+      scheme: default
+      primary: black
+      toggle:
+        icon: material/brightness-7
+        name: Темная тема
+    - media: '(prefers-color-scheme: dark)'
+      scheme: slate
+      primary: black
+      toggle:
+        icon: material/brightness-4
+        name: Светлая тема
+  icon:
+    repo: material/github
+  logo: images/icon.svg
+  favicon: images/favicon.ico
+  features:
+    - navigation.tabs
+plugins:
+  - search
+  - blog
+extra:
+  analytics:
+    provider: google
+    property: G-T1L5SBV3KR
