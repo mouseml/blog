@@ -1,9 +1,25 @@
-# мыш
+# мыш блог
 
-## License
+Всем привет! Это репозиторий [блога](https://mouseml.github.io/blog) со статьями и гайдами по теме видео на канале [мыш](https://www.youtube.com/channel/UCscWjyvPudzdIaGCCtEL3nw).
 
-All content in this repository — including articles, video scripts, and configuration files — is licensed under the [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License](https://creativecommons.org/licenses/by-nc-nd/4.0/).
+Автор будет благодарен за любую помощь в поиске и устранении опечаток и любых ошибок. О найденных ошибках можно сообщить через [Issue](https://github.com/mouseml/blog/issues), [PR](https://github.com/mouseml/blog/pulls) или [Telegram](https://t.me/ml_mouse).
 
-This means you are welcome to share the material with proper attribution, but you may not use it commercially or create derivative works.
+## Разработка
 
-In the future, we may consider moving to a more collaborative license to support community contributions. For now, all improvements must go through pull requests for review and approval.
+Виртуальное окружение проекта управляется с помощью [uv](https://docs.astral.sh/uv). Установите uv, следуя [официальной инструкции](https://docs.astral.sh/uv/getting-started/installation/) и установите зависимости проекта с помощью команды:
+
+```shell
+uv sync
+```
+
+Развернуть документацию локально можно с помощью команды:
+
+```shell
+mkdocs serve
+```
+
+## Лицензия
+
+Весь контент в этом репозитории - включая тексты статей, иллюстрации и исходный код - лицензирован [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/). Это значит, что вы можете размещать его где угодно, оставляя при этом ссылку на автора, [этот блог](https://mouseml.github.io/blog) и [YouTube канал](https://www.youtube.com/channel/UCscWjyvPudzdIaGCCtEL3nw).
+
+Автор запрещает любое использование вышеперечисленных материалов в коммерческих целях и создание производных работ на его основе. При условии активной поддержки сообщества в будущем возможен переход на более коллаборативную лицензию для учета и поддержки вклада всех участников. На текущий момент все изменения должны проходить через PR с аппрувом от автора.

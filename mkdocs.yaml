@@ -1,11 +1,11 @@
 site_name: "мыш"
-site_description: "мыш документация"
+site_description: "Нескучные туториалы по Python и ML"
 site_url: "https://mouseml.github.io/blog"
 repo_url: "https://github.com/mouseml/blog"
+copyright: © 2025 мыш <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.ru" target="_blank" rel="noopener">CC BY-NC-ND 4.0</a>
 nav:
-  - 'index.md'
-  - Блог:
-    - blog/index.md
+  - Видео статьи:
+      - index.md
 theme:
   name: 'material'
   language: 'ru'
@@ -28,10 +28,42 @@ theme:
   favicon: images/favicon.ico
   features:
     - navigation.tabs
+    - navigation.footer
+    - content.code.copy
 plugins:
   - search
-  - blog
+  - blog:
+      blog_dir: .
+      categories_allowed:
+        - ML
+        - DL
+        - Python
+        - История
 extra:
+  social:
+    - icon: fontawesome/brands/youtube
+      link: https://www.youtube.com/channel/UCscWjyvPudzdIaGCCtEL3nw
+      name: YouTube
+    - icon: fontawesome/brands/telegram
+      link: https://www.t.me/ml_mouse
+      name: Telegram
   analytics:
     provider: google
     property: G-T1L5SBV3KR
+markdown_extensions:
+  - attr_list
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
