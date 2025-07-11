@@ -13,6 +13,8 @@
         <link rel="canonical" href="https://mouseml.github.io/blog/2025/04/18/nn/">
       
       
+        <link rel="prev" href="../../../03/27/ml/">
+      
       
       
       <link rel="icon" href="../../../../images/favicon.ico">
@@ -510,6 +512,31 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../../category/ml/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ML
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
       <a href="../../../../category/python/" class="md-nav__link">
         
   
@@ -788,7 +815,7 @@
 <p>Например, эта матрица содержит данные трех человек. Первая колонка - рост, вторая - вес, третья - отношение к курению. Второй человек имеет рост 185 сантиметров, вес 85 килограмм и не курит.</p>
 <p>Последний слой называют головой - он возвращает предсказания модели для каждого входного объекта. Матрицу предсказаний обычно обозначают как <span class="arithmatex">\(\hat{\mathbf{y}}\)</span>, а матрицу истинных значений (или правильных ответов на задачу) - просто <span class="arithmatex">\(\mathbf{y}\)</span>. При обучении модели мы будем сравнивать их друг с другом, чтобы понять, насколько сильно модель ошибается:</p>
 <div class="arithmatex">\[
-\mathbf{\hat{y}} = 
+\hat{\mathbf{y}} = 
 \begin{bmatrix}
 0.6 \\ 0.2 \\ 0.5
 \end{bmatrix}
@@ -897,11 +924,11 @@
 <p><img alt="Схема нейронной сети" src="../../../../images/posts/nn/nn_scheme_detailed.png" /></p>
 <p>Но кроме линейных слоев есть еще слои активации. Чтобы понять, зачем они нужны, попробуем избавиться от них и записать нейронную сеть в виде формулы. Это несложно - по сути нам нужно просто последовательно умножить матрицу входных данных <span class="arithmatex">\(\mathbf{Х}\)</span> на матрицы весов каждого слоя:</p>
 <div class="arithmatex">\[
-\mathbf{\hat{y}} = ((\mathbf{X} \mathbf{W}_1) \mathbf{W}_2) \mathbf{W}_3.
+\hat{\mathbf{y}} = ((\mathbf{X} \mathbf{W}_1) \mathbf{W}_2) \mathbf{W}_3.
 \]</div>
 <p>Но эту формулу можно упростить, заменив три матрицы их произведением:</p>
 <div class="arithmatex">\[
-\mathbf{\hat{y}} = \mathbf{X} \mathbf{W},
+\hat{\mathbf{y}} = \mathbf{X} \mathbf{W},
 \]</div>
 <p>где <span class="arithmatex">\(\mathbf{W} = \mathbf{W}_1 \mathbf{W}_2 \mathbf{W}_3\)</span>.</p>
 <p>И нюанс в том, что абсолютно неважно, сколько у нас слоев и сколько в каждом из них промежуточных признаков - матрица <span class="arithmatex">\(\mathbf{W}\)</span> всегда будет иметь размерность <span class="arithmatex">\((n \times 1)\)</span>, где <span class="arithmatex">\(n\)</span> - количество признаков на входе. То есть, по сути, любая нейронная сеть в таком виде будет эквивалентна намного более простой модели - линейной регрессии.</p>
@@ -1013,13 +1040,13 @@
 <h2 id="_4">Функции потерь</h2>
 <p>Итак, сейчас проблема в том, что каждый линейный слой модели инициализирован случайными параметрами, и предсказания модели тоже являются случайными числами. Задача состоит в том, чтобы подобрать такие параметры модели, при которых ее предсказания будут как можно ближе к правильным значениям. Этот процесс называется обучением модели. Тогда модель можно будет использовать для решения новых задач. </p>
 <p>Но сначала нам нужно четко сформулировать, что именно мы считаем хорошей моделью. Для этого нужно охарактеризовать отклонения модели от желаемого результата на всей выборке обучения одним числом. Чем оно меньше, тем лучше модель. И в этом нам снова помогут особые функции, которые называют функциями потерь, и выбор конкретной функции зависит от задачи.</p>
-<p>Самая простая функция потерь у задач регрессии. Ее называют средний квадрат отклонения, Mean Squared Error или MSE. Для ее вычисления находят разность между предсказаниями модели <span class="arithmatex">\(\mathbf{\hat{y}}\)</span> и истинными значениями <span class="arithmatex">\(\mathbf{y}\)</span>, возводят разность в квадрат, чтобы избавиться от знака и увеличить штраф за сильные отклонения, и находят среднее:</p>
+<p>Самая простая функция потерь у задач регрессии. Ее называют средний квадрат отклонения, Mean Squared Error или MSE. Для ее вычисления находят разность между предсказаниями модели <span class="arithmatex">\(\hat{\mathbf{y}}\)</span> и истинными значениями <span class="arithmatex">\(\mathbf{y}\)</span>, возводят разность в квадрат, чтобы избавиться от знака и увеличить штраф за сильные отклонения, и находят среднее:</p>
 <div class="arithmatex">\[
-\mathcal{L}(\mathbf{\hat{y}}, \mathbf{y}) = \frac{1}{m} \sum_{i=1}^m (\mathbf{y}_i - \mathbf{\hat{y}}_i)^2.
+\mathcal{L}(\hat{\mathbf{y}}, \mathbf{y}) = \frac{1}{m} \sum_{i=1}^m (\mathbf{y}_i - \hat{\mathbf{y}}_i)^2.
 \]</div>
 <p>Здесь <span class="arithmatex">\(m\)</span> - это размер выборки. Можете посчитать отклонение для этих значений и сверить результат:</p>
 <div class="arithmatex">\[
-\mathbf{\hat{y}} = 
+\hat{\mathbf{y}} = 
 \begin{bmatrix}
 0.6 \\ 0.2 \\ 0.5
 \end{bmatrix}
@@ -1029,25 +1056,25 @@
 0.5 \\ 1.5 \\ 0.7
 \end{bmatrix}
 \quad
-\mathcal{L}(\mathbf{\hat{y}}, \mathbf{y}) = 0.58.
+\mathcal{L}(\hat{\mathbf{y}}, \mathbf{y}) = 0.58.
 \]</div>
 <p>Для задач бинарной классификации используют другую функцию потерь - бинарную кросс-энтропию. Для штрафа здесь используется логарифмическая зависимость:</p>
 <div class="arithmatex">\[
-\mathcal{L}(\mathbf{\hat{y}}, \mathbf{y}) = -\mathbf{y}_i \log(\mathbf{\hat{y}}_i).
+\mathcal{L}(\hat{\mathbf{y}}, \mathbf{y}) = -\mathbf{y}_i \log(\hat{\mathbf{y}}_i).
 \]</div>
 <p>Чтобы понять почему, построим график минус логарифма. Так как предсказания моделей классификации всегда находятся в диапазоне <span class="arithmatex">\([0;1]\)</span>, на графике обращаем внимание только на этот участок. Теперь из формулы и графика видно, что если истинное значение равно единице, а предсказание модели близко к единице, то штраф будет близок к нулю. Но если модель колеблется или с уверенностью предсказывает 0, штраф будет резко увеличиваться.</p>
 <p><img alt="Бинарная кросс-энтропия" src="../../../../images/posts/nn/loss_cross_entropy.png" /></p>
 <p>Чтобы учесть случаи, когда истинное значение равно нулю, добавляют второе слагаемое. Здесь аргумент логарифма изменен таким образом, чтобы наоборот, штрафовать модель за значения, близкие к единице:</p>
 <div class="arithmatex">\[
-\mathcal{L}(\mathbf{\hat{y}}, \mathbf{y}) = -\mathbf{y}_i \log(\mathbf{\hat{y}}_i) - (1 - \mathbf{y}_i) \log(\mathbf{1 -\hat{y}}_i).
+\mathcal{L}(\hat{\mathbf{y}}, \mathbf{y}) = -\mathbf{y}_i \log(\hat{\mathbf{y}}_i) - (1 - \mathbf{y}_i) \log(\mathbf{1 -\hat{y}}_i).
 \]</div>
 <p>Так как истинное значение всегда равно либо нулю, либо единице, в каждом случае работает только одно из слагаемых, второе обращается в 0. Не забываем, что нам нужно усреднить значения функции потерь по всей выборке - с учетом этого финальная формула выглядит вот так:</p>
 <div class="arithmatex">\[
-\mathcal{L}(\mathbf{\hat{y}}, \mathbf{y}) = -\frac{1}{m}\sum_{i=1}^{m}\mathbf{y}_i \log(\mathbf{\hat{y}}_i) + (1 - \mathbf{y}_i) \log(\mathbf{1 -\hat{y}}_i).
+\mathcal{L}(\hat{\mathbf{y}}, \mathbf{y}) = -\frac{1}{m}\sum_{i=1}^{m}\mathbf{y}_i \log(\hat{\mathbf{y}}_i) + (1 - \mathbf{y}_i) \log(\mathbf{1 -\hat{y}}_i).
 \]</div>
 <p>Тут можете снова посчитать значение функции потерь вручную для двух матриц и сверить результат:</p>
 <div class="arithmatex">\[
-\mathbf{\hat{y}} = 
+\hat{\mathbf{y}} = 
 \begin{bmatrix}
 0.9 \\ 0.3 \\ 0.2
 \end{bmatrix}
@@ -1057,11 +1084,11 @@
 1 \\ 1 \\ 0
 \end{bmatrix}
 \quad
-\mathcal{L}(\mathbf{\hat{y}}, \mathbf{y}) = 0.51.
+\mathcal{L}(\hat{\mathbf{y}}, \mathbf{y}) = 0.51.
 \]</div>
 <p>Формулу бинарной кросс-энтропии можно обобщить на случай <span class="arithmatex">\(K\)</span> классов:</p>
 <div class="arithmatex">\[
-\mathcal{L}(\mathbf{\hat{y}}, \mathbf{y}) = -\frac{1}{m}\sum_{i=1}^{m}\sum_{k=1}^{K}\mathbf{y}_{i,k} \log(\mathbf{\hat{y}}_{i,k}).
+\mathcal{L}(\hat{\mathbf{y}}, \mathbf{y}) = -\frac{1}{m}\sum_{i=1}^{m}\sum_{k=1}^{K}\mathbf{y}_{i,k} \log(\hat{\mathbf{y}}_{i,k}).
 \]</div>
 <p>Ее называют категориальной кросс-энтропией и используют для задач мультиклассовой классификации. Так как тут все по сути аналогично предыдущему случаю и вам все равно не придется считать ее вручную, более подробно ее разбирать не будем. </p>
 <p>Вместо этого предлагаю вернуться к коду и посмотреть, как функции потерь вычисляются в PyTorch. Для каждой из перечисленных функций есть свои классы в пакете <code>torch.nn</code>, из которого мы импортировали слои и функции активации. Импортируем классы <code>MSELoss</code>, <code>BCELoss</code> - это сокращение от binary cross-entropy - и <code>CrossEntropyLoss</code> - это категориальная кросс-энтропия. И повторим примеры, которые мы решали вручную.</p>
@@ -1164,14 +1191,14 @@
 \]</div>
 <p>Все случаи можно обобщить вот такой формулой:</p>
 <div class="arithmatex">\[
-w_1 = w_1 - \alpha\ \text{sign} \left( \frac{\partial \mathcal{L}}{\partial w_1} \right).
+w_1 \leftarrow w_1 - \alpha\ \text{sign} \left( \frac{\partial \mathcal{L}}{\partial w_1} \right).
 \]</div>
 <p>То есть, всегда нужно делать фиксированный шаг против знака производной. Как только мы попадем в новую точку, все действия повторяются, и так до тех пор, пока мы не начнем колебаться вокруг конечной точки. Эта точка и будет минимумом функции.</p>
 <p><img alt="Градиентный спуск: упрощенная версия" src="../../../../images/posts/nn/gradient_descent_dummy.png" /></p>
 <p>Сейчас заметно, что шаги стоило делать немного эффективнее. Там, где модуль производной достаточно большой и функция быстро уходит вниз, можно делать более широкие шаги - так, чтобы подойти к минимуму за меньше количество итераций. А ближе к точке минимума, где производная близка к нулю, наоборот, стоило бы замедлиться, чтобы оказаться ближе к минимуму.</p>
 <p>То есть, вместо использования только знака производной нужно использовать само значение производной и немного изменить множитель. Переписав формулу в таком виде, мы и получим алгоритм градиентного спуска:</p>
 <div class="arithmatex">\[
-w_1 = w_1 - \alpha\ \frac{\partial \mathcal{L}}{\partial w_1}.
+w_1 \leftarrow w_1 - \alpha\ \frac{\partial \mathcal{L}}{\partial w_1}.
 \]</div>
 <p>Коэффициент <span class="arithmatex">\(\alpha=10^{-4} \dots 10^{-2}\)</span> называется степенью обучения или learning rate.</p>
 <p><img alt="Градиентный спуск" src="../../../../images/posts/nn/gradient_descent.png" /></p>
@@ -1188,7 +1215,7 @@ w_1 = w_1 - \alpha\ \frac{\partial \mathcal{L}}{\partial w_1}.
 \]</div>
 <p>Их значения будут использованы для того, чтобы обновить параметры модели по отдельности, точно таким же образом, как мы это делали в случае только одного параметра:</p>
 <div class="arithmatex">\[
-\mathbf{W}_i = \mathbf{W}_i - \alpha \frac{\partial \mathcal{L}}{\partial \mathbf{W}_i}.
+\mathbf{W}_i \leftarrow \mathbf{W}_i - \alpha \frac{\partial \mathcal{L}}{\partial \mathbf{W}_i}.
 \]</div>
 <p>С градиентным спуском связаны и другие сложности. Например, само по себе вычисление частных производных функции потерь по параметрам произвольной нейронной сети является настолько сложной задачей, что у алгоритма для их вычисления есть отдельное название - алгоритм обратного распространения ошибки. </p>
 <p>Кроме того, у градиентного спуска есть свои недостатки, которые попытались исправить в его модифицированных версиях - ускоренном градиентном спуске Нестерова, AdaGrad, RMSProp и Adam. </p>
@@ -1392,8 +1419,8 @@ w_1 = w_1 - \alpha\ \frac{\partial \mathcal{L}}{\partial w_1}.
 </span><span id="__span-49-7"><a id="__codelineno-49-7" name="__codelineno-49-7" href="#__codelineno-49-7"></a><span class="n">X_train</span><span class="p">,</span> <span class="n">X_val</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:</span><span class="mi">100</span><span class="p">],</span> <span class="n">X</span><span class="p">[</span><span class="mi">100</span><span class="p">:]</span>
 </span><span id="__span-49-8"><a id="__codelineno-49-8" name="__codelineno-49-8" href="#__codelineno-49-8"></a><span class="n">y_train</span><span class="p">,</span> <span class="n">y_val</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:</span><span class="mi">100</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="mi">100</span><span class="p">:]</span>
 </span><span id="__span-49-9"><a id="__codelineno-49-9" name="__codelineno-49-9" href="#__codelineno-49-9"></a>
-</span><span id="__span-49-10"><a id="__codelineno-49-10" name="__codelineno-49-10" href="#__codelineno-49-10"></a><span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">(</span><span class="n">Linear</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span> <span class="n">ReLU</span><span class="p">(),</span> <span class="n">Linear</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-</span><span id="__span-49-11"><a id="__codelineno-49-11" name="__codelineno-49-11" href="#__codelineno-49-11"></a><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">CrossEntropyLoss</span><span class="p">()</span>
+</span><span id="__span-49-10"><a id="__codelineno-49-10" name="__codelineno-49-10" href="#__codelineno-49-10"></a><span class="hll"><span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">(</span><span class="n">Linear</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span> <span class="n">ReLU</span><span class="p">(),</span> <span class="n">Linear</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+</span></span><span id="__span-49-11"><a id="__codelineno-49-11" name="__codelineno-49-11" href="#__codelineno-49-11"></a><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">CrossEntropyLoss</span><span class="p">()</span>
 </span><span id="__span-49-12"><a id="__codelineno-49-12" name="__codelineno-49-12" href="#__codelineno-49-12"></a><span class="n">optimizer</span> <span class="o">=</span> <span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
 </span><span id="__span-49-13"><a id="__codelineno-49-13" name="__codelineno-49-13" href="#__codelineno-49-13"></a>
 </span><span id="__span-49-14"><a id="__codelineno-49-14" name="__codelineno-49-14" href="#__codelineno-49-14"></a><span class="hll"><span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">):</span>
@@ -1438,7 +1465,7 @@ w_1 = w_1 - \alpha\ \frac{\partial \mathcal{L}}{\partial w_1}.
 <div class="language-text no-copy highlight"><pre><span></span><code><span id="__span-52-1"><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a>Точность модели: 88%
 </span></code></pre></div></p>
 <p>Итак, наша модель угадала классы 88% объектов - это довольно неплохой результат.</p>
-<p>Кстати, если вы запустите код несколько раз, то увидите, что результаты имеют сильный разброс. Это потому, что выборка очень маленькая, и случайная инициализация модели оказывает значительный эффект. Но в других задачах, как правило, наборы данных будут намного больше, и влияние рандома будет в разы ниже. </p>
+<p>Кстати, если вы запустите код несколько раз, то увидите, что результаты имеют сильный разброс. Это потому, что выборка очень маленькая, и случайная инициализация модели оказывает значительный эффект. Но в других задачах, как правило, наборы данных будут намного больше, и влияние случайного фактора будет в разы ниже. </p>
 <p>Теперь, чтобы почувствовать себя настоящим Data Scientist-ом, можете попробовать улучшить результат. Для этого можно поменять количество слоев модели, количество промежуточных признаков, коэффициент обучения и количество шагов градиентного спуска.</p>
 <h2 id="_8">Заключение</h2>
 <p>Это была довольно простая задача, но на практике вас ждет еще много нюансов. Например, к данным нужно применять скейлеры, разбивать каждую выборку на батчи, чтобы экономить память и добиваться лучших результатов, использовать более продвинутый оптимизатор вместо <code>SGD</code>, мониторить метрики модели на обеих выборках по ходу обучения и так далее. Все эти шаги обязательно будут в следующих разборах, поэтому добавляйте сайт в закладки, подписывайтесь на <a href="https://www.youtube.com/channel/UCscWjyvPudzdIaGCCtEL3nw" target="_blank">YouTube канал <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> и заходите пообщаться в <a href="https://www.t.me/ml_mouse" target="_blank">Telegram <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. Увидимся в код ревью, всем пока!</p>
@@ -1473,6 +1500,30 @@ w_1 = w_1 - \alpha\ \frac{\partial \mathcal{L}}{\partial w_1}.
       
         <footer class="md-footer">
   
+    
+      
+        
+      
+      <nav class="md-footer__inner md-grid" aria-label="Нижний колонтитул" >
+        
+          
+          <a href="../../../03/27/ml/" class="md-footer__link md-footer__link--prev" aria-label="Назад: Машинное обучение — все что нужно знать">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Назад
+              </span>
+              <div class="md-ellipsis">
+                Машинное обучение — все что нужно знать
+              </div>
+            </div>
+          </a>
+        
+        
+      </nav>
     
   
   <div class="md-footer-meta md-typeset">

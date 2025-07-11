@@ -1,0 +1,1291 @@
+
+<!doctype html>
+<html lang="ru" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Нескучные туториалы по Python и ML">
+      
+      
+      
+        <link rel="canonical" href="https://mouseml.github.io/blog/2025/03/27/ml/">
+      
+      
+      
+        <link rel="next" href="../../../04/18/nn/">
+      
+      
+      <link rel="icon" href="../../../../images/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+    
+    
+      
+        <title>Машинное обучение — все что нужно знать - мыш</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-T1L5SBV3KR"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-T1L5SBV3KR",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-T1L5SBV3KR",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Перейти к содержанию
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Верхний колонтитул">
+    <a href="../../../.." title="мыш" class="md-header__button md-logo" aria-label="мыш" data-md-component="logo">
+      
+  <img src="../../../../images/icon.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            мыш
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Машинное обучение — все что нужно знать
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="Темная тема"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Темная тема" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="Светлая тема"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Светлая тема" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Поиск" placeholder="Поиск" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Поиск">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Очистить" aria-label="Очистить" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Инициализация поиска
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/mouseml/blog" title="Перейти к репозиторию" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Вкладки" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../../.." class="md-tabs__link">
+          
+  
+  
+  Видео статьи
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" hidden>
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Навигация" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="мыш" class="md-nav__button md-logo" aria-label="мыш" data-md-component="logo">
+      
+  <img src="../../../../images/icon.svg" alt="logo">
+
+    </a>
+    мыш
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/mouseml/blog" title="Перейти к репозиторию" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33s1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    Видео статьи
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            Видео статьи
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Лента
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_2" id="__nav_1_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Архив
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_2">
+            <span class="md-nav__icon md-icon"></span>
+            Архив
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../archive/2025/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    2025
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_3" id="__nav_1_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Категории
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            Категории
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/dl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DL
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/ml/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    ML
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../category/python/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Python
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+                
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ml" class="md-nav__link">
+    <span class="md-ellipsis">
+      Что такое ML
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Что такое ML">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lr" class="md-nav__link">
+    <span class="md-ellipsis">
+      Линейная регрессия
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      Дерево решений
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nn" class="md-nav__link">
+    <span class="md-ellipsis">
+      Нейронная сеть
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Классификация задач
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Этапы ML проекта
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Этапы ML проекта">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#load" class="md-nav__link">
+    <span class="md-ellipsis">
+      Загрузка данных
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#eda" class="md-nav__link">
+    <span class="md-ellipsis">
+      Разведочный анализ
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clean" class="md-nav__link">
+    <span class="md-ellipsis">
+      Очистка данных
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    <span class="md-ellipsis">
+      Выбор признаков
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#train" class="md-nav__link">
+    <span class="md-ellipsis">
+      Обучение
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Развертывание
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Пример проекта
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Основные проблемы
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Основные проблемы">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#signal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Отсутствие сигнала
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bias" class="md-nav__link">
+    <span class="md-ellipsis">
+      Смещение
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#overfitting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Переобучение
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#drift" class="md-nav__link">
+    <span class="md-ellipsis">
+      Дрейф данных
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#warranty" class="md-nav__link">
+    <span class="md-ellipsis">
+      Отсутствие гарантий
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learn" class="md-nav__link">
+    <span class="md-ellipsis">
+      Как освоить ML
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#end" class="md-nav__link">
+    <span class="md-ellipsis">
+      Заключение
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+  <div class="md-content md-content--post" data-md-component="content">
+    <div class="md-sidebar md-sidebar--post" data-md-component="sidebar" data-md-type="navigation">
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner md-post">
+          <nav class="md-nav md-nav--primary">
+            <div class="md-post__back">
+              <div class="md-nav__title md-nav__container">
+                <a href="../../../.." class="md-nav__link">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+                  <span class="md-ellipsis">
+                    На главную
+                  </span>
+                </a>
+              </div>
+            </div>
+            
+            <ul class="md-post__meta md-nav__list">
+              <li class="md-nav__item md-nav__item--section">
+                <div class="md-post__title">
+                  <span class="md-ellipsis">
+                    Метаданные
+                  </span>
+                </div>
+                <nav class="md-nav">
+                  <ul class="md-nav__list">
+                    <li class="md-nav__item">
+                      <div class="md-nav__link">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 19H5V8h14m-3-7v2H8V1H6v2H5c-1.11 0-2 .89-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1m-1 11h-5v5h5z"/></svg>
+                        <time datetime="2025-03-27 00:00:00+00:00" class="md-ellipsis">27 марта 2025 г.</time>
+                      </div>
+                    </li>
+                    
+                    
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 3v15h3V3zm3 2 4 13 3-1-4-13zM5 5v13h3V5zM3 19v2h18v-2z"/></svg>
+                          <span class="md-ellipsis">
+                            В
+                            
+                              <a href="../../../../category/ml/">ML</a>, 
+                              <a href="../../../../category/dl/">DL</a></span>
+                        </div>
+                      </li>
+                    
+                    
+                      
+                      <li class="md-nav__item">
+                        <div class="md-nav__link">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 20a8 8 0 0 0 8-8 8 8 0 0 0-8-8 8 8 0 0 0-8 8 8 8 0 0 0 8 8m0-18a10 10 0 0 1 10 10 10 10 0 0 1-10 10C6.47 22 2 17.5 2 12A10 10 0 0 1 12 2m.5 5v5.25l4.5 2.67-.75 1.23L11 13V7z"/></svg>
+                          <span class="md-ellipsis">
+                            
+                              Читать 23 мин
+                            
+                          </span>
+                        </div>
+                      </li>
+                    
+                  </ul>
+                </nav>
+              </li>
+            </ul>
+            
+              <ul class="md-post__meta md-nav__list">
+                <li class="md-nav__item md-nav__item--section">
+                  <div class="md-post__title">
+                    <span class="md-ellipsis">
+                      Ссылки
+                    </span>
+                  </div>
+                  <nav class="md-nav">
+                    <ul class="md-nav__list">
+                      
+                        
+                        
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://youtu.be/s0de5Q4taFE" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Видео на YouTube
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+                      
+                    </ul>
+                  </nav>
+                </li>
+              </ul>
+            
+          </nav>
+          
+        </div>
+      </div>
+    </div>
+    <article class="md-content__inner md-typeset">
+      
+        
+  
+
+
+
+  
+  
+
+
+<h1 id="_1">Машинное обучение — все что нужно знать</h1>
+<p><img alt="Обложка" src="../../../../images/posts/ml/thumbnail.jpg" /></p>
+<p>Погружаемся в машинное обучение. Учимся смотреть на задачи глазами Data Scientist-а, изучаем основные модели — да, это не только нейросети — и этапы ML проектов. Также поговорим о том, с какими проблемами вы будете постоянно сталкиваться, правда ли так важно знать математику и с чего лучше начать обучение.</p>
+<!-- more -->
+
+<h2 id="ml">Что такое ML</h2>
+<p>Начнем с того, что такое ML. Если вы, как и я родились уже после того, как компьютеры превратились в основной источник дофамина, напомню, что изначально они задумывались как устройства для автоматизации рутинных задач. Только нюанс в том, что некоторые задачи хорошо поддаются автоматизации, а другие — не очень. И дело тут не в сложности. </p>
+<p>Например, вы без труда найдете софт, чтобы посчитать количество рулонов обоев, ежемесячный платеж по ипотеке или провести симуляцию течения жидкости в воздухозаборнике. Все это задачи разной сложности, но их объединяет то, что для их решения можно прописать четкий алгоритм.</p>
+<p>А если вы спросите у оценщика недвижимости, каким алгоритмом он пользуется для определения рыночной стоимости квартиры, то в ответ услышите не только общие закономерности, но и кучу тонкостей и исключений из правил. То же самое касается и других задач, например, одобрения кредита исходя из данных и кредитной истории клиента, идентификации спама или мошеннических операций по карте, выставления диагноза по результатам анализов и истории болезни пациента и так далее.</p>
+<p>Кроме задач, требующих глубоких экспертных знаний, тяжело поддаются автоматизации и обыденные задачи, связанные с обработкой зрительной и звуковой информации и речи. Отличить птицу от самолета на картинке и понять эмоциональную окраску предложения сможет даже ребенок, но придумать строгий набор правил, по которым он это делает кажется практически невозможным. Как бы вы не пытались проанализировать форму и цвет скопления пикселей и составить список плохих и хороших слов, всегда найдется огромное количество примеров, в которых ваш алгоритм не сработает.</p>
+<p>Как вы уже поняли, все это примеры задач, с которыми отлично справляется машинное обучение. И его ключ к успеху — в данных. У нас может не быть хорошего алгоритма оценки стоимости недвижимости, но у банков будут данные о тысячах совершенных сделок. О мошеннических операциях и спаме клиенты в первую сообщают в поддержку. А пользователи в соцсетях сами подписывают каждое загруженное изображение.</p>
+<p>Часто даже базовый анализ данных бывает полезен сам по себе — вы можете посмотреть отчет банка и обнаружить, что с каждым месяцем тратите больше денег на развлечения, хотя в моменте это незаметно. Или сервис почты может определить, что с некоторых почтовых ящиков в последние часы начал поступать спам и заблокировать их. </p>
+<p>Естественно, более продвинутый статистический анализ дает возможность находить скрытые, неочевидные закономерности и даже принимать на их основе решения. Этим занимаются дата аналитики и бизнес аналитики. А принятие решений на основе сформировало отдельный подход — Data-Driven Decision Making или DDD.</p>
+<p>Но машинное обучение пошло еще дальше. Если у нас достаточно данных о предыдущих решениях задачи, мы можем обучить ML модель, которая заменит алгоритм решения задачи. ML модель можно представить как функцию с параметрами. В процессе обучения значения параметров автоматически подбираются таким образом, чтобы на известных нам данных модель давала наименьшее возможное отклонение от правильных решений задачи.</p>
+<p>Чтобы стало понятнее, давайте разберем принцип работы пары самых часто используемых моделей. </p>
+<h3 id="lr">Линейная регрессия</h3>
+<p>Начнем с простейшей — это линейная регрессия. Вернемся к примеру с оценкой стоимости квартиры. Если мы выделили несколько параметров квартиры — таких, как площадь, расстояние до центра в километрах и этажность здания — и хотите по ним предсказывать рыночную стоимость, линейная регрессия просто умножит каждый из этих параметров на свой коэффициент и все просуммирует. Результатом и будет стоимость квартиры с этими параметрами:</p>
+<div class="arithmatex">\[
+\text{Цена} = w_1 \cdot \text{Площадь} + w_2 \cdot \text{Удаленность} + w_3 \cdot \text{Этажность}.
+\]</div>
+<p>А для вычисления оптимальных значений коэффициентов есть готовая формула:</p>
+<div class="arithmatex">\[
+\begin{bmatrix}
+w_1 \\ w_2 \\ w_3
+\end{bmatrix}
+= \left( \mathbf{X}^T \mathbf{X} \right)^{-1} \mathbf{X}^T \mathbf{y}.
+\]</div>
+<p>Обучение модели заключается в том, чтобы просто подставить в эту формулу данные всех квартир (<span class="arithmatex">\(\mathbf{X}\)</span>) и данные об их стоимости (<span class="arithmatex">\(\mathbf{y}\)</span>):</p>
+<div class="arithmatex">\[
+\mathbf{X} = 
+\begin{bmatrix}
+35 &amp; 2 &amp; 30 \\
+80 &amp; 1 &amp; 5 \\
+45 &amp; 8 &amp; 10
+\end{bmatrix},
+\quad
+\mathbf{y} =
+\begin{bmatrix}
+12 \\
+25 \\
+9
+\end{bmatrix}.
+\]</div>
+<p>Каждая колонка матрицы <span class="arithmatex">\(\mathbf{X}\)</span> отвечает за определенный признак квартиры (единицы измерения могут быть любыми). В данном случае первая колонка — площадь в квадратных метрах, вторая — удаленность от центра города в километрах, третья — этажность здания, в котором находится квартира. Например, третья квартира имеет площадь 45 квадратных метров, находится в 8 километрах от центра в 10-этажном здании и стоит 9 миллионов рублей.</p>
+<p>Коэффициенты линейной регрессии, посчитанные таким образом, будут давать наименьшее отклонение от стоимости квартиры на этих данных. При этом значение каждого коэффициента определяет важность признака, а его знак — положительное или отрицательное влияние на результат:</p>
+<div class="arithmatex">\[
+\text{Цена} = 0.32 \cdot \text{Площадь} - 0.76 \cdot \text{Удаленность} + 0.08 \cdot \text{Этажность}.
+\]</div>
+<p>Например, какие бы данные о квартирах мы ни взяли, коэффициент при площади наверняка будет положительным, потому что каждый метр жилья увеличивает его стоимость. А коэффициент при расстоянии от центра скорее всего будет отрицательным, так как стоимость квартиры в отдаленных районах, как правило, ниже. С этажностью дома все не так очевидно. Коэффициент здесь скорее всего будет намного меньше по модулю, чем при первых двух признаках. Это отражает меньшее влияние признака на результат.</p>
+<h3 id="tree">Дерево решений</h3>
+<p>Другая ML модель, которую можно было бы использовать для этой задачи — дерево решений. Оно пытается разбить набор данных на две части таким образом, чтобы в каждой из них оказались квартиры, наиболее близкие по стоимости. Разбиение может быть выполнено по любому признаку, и для того, чтобы понять, какое разбиение сработает лучше всего, дерево решений пытается сделать все возможные варианты и сравнить их. </p>
+<p>Например, если центральный район города с наиболее престижным жильем заканчивается в двух километрах от центра города, дерево решений может отнести все квартиры, расположенные дальше, в одну категорию и ближе — в другую:</p>
+<p><img alt="Дерево решений: первое разбиение" src="../../../../images/posts/ml/decision_tree_first_split.png" /></p>
+<p>Тот же процесс повторяется с каждой из частей. Для нового разбиения может быть выбран тот же признак — например, в этот раз выделены совсем отдаленные районы — или другой, например площадь квартиры. Процесс разбиения продолжается до тех пор, пока частей не станет слишком много или новые разбиения не потеряют смысл, потому что все квартиры в каждой группе уже оказались схожими.</p>
+<p><img alt="Дерево решений: все разбиения" src="../../../../images/posts/ml/decision_tree_all_splits.png" /></p>
+<p>Дальше каждая группа, заменяется средней арифметической стоимостью всех квартир, которые в нее попали. Для определения стоимости новой квартиры достаточно пройти по дереву до тех пор, пока мы не попадем в группу.</p>
+<p><img alt="Дерево решений" src="../../../../images/posts/ml/decision_tree_complete.png" /></p>
+<p>Например, новая квартира находится в 800 метрах от центра и имеет площадь 34 квадратных метра. Идем по дереву влево (дальность менее 2 километров) и снова влево (площадь менее 60 квадратных метров) и получаем ответ — 15 миллионов рублей.</p>
+<h3 id="nn">Нейронная сеть</h3>
+<p>Нейронные сети похожи на линейную регрессию. Но основное отличие в том, что вместо скалярных коэффициентов в нейронных сетях используются матрицы коэффициентов, которые отображают признаки не сразу в ответ, а в другие признаки:</p>
+<div class="arithmatex">\[
+\mathbf{a}_1 = \mathbf{X}\mathbf{W}_1.
+\]</div>
+<p>Здесь <span class="arithmatex">\(\mathbf{X}\)</span> — та же матрица исходных данных, которую мы использовали при описании <a href="#lr">линейной регрессии</a>. Строки в ней соответствуют объектам, а колонки — признакам. Матрица <span class="arithmatex">\(\mathbf{a}_1\)</span> имеет то же количество строк, что и <span class="arithmatex">\(\mathbf{X}\)</span> (количество объектов не меняется), но другое количество колонок (каждая колонка соответствует некоторому промежуточному признаку). Конкретные числа зависят от матрицы <span class="arithmatex">\(\mathbf{W}_1\)</span>, значения которой подбираются в процессе обучения.</p>
+<p>Думайте об этом как о промежуточных вычислениях. Вспомните задачи по математике или физике из школы — даже если вы хорошо разбирались в теме, вряд ли у вас получилось бы решить задачу в голове. Сначала нужно вычислить промежуточные величины из исходных данных, а потом уже подставить их в финальную формулу, чтобы получить результат. </p>
+<p>В нейронных сетях все именно так и происходит — сначала несколько исходных признаков пересчитывается в другое — как правило, большее — количество промежуточных признаков, каждый из которых является комбинацией всех исходных. Что это за признаки, мы уже не знаем и не можем контролировать их подсчет — нейронная сеть это определяет автоматически по ходу обучения. </p>
+<p>Операция подсчета новых промежуточных признаков называется <em>слоем</em> и может повторяться несколько раз. Для каждой такой операции используется своя матрица коэффициентов. Последняя матрица <span class="arithmatex">\(\mathbf{W}_n\)</span> используется для отображения промежуточных признаков (<span class="arithmatex">\(\mathbf{a}_{n-1}\)</span>) в ответ (<span class="arithmatex">\(\hat{\mathbf{y}}\)</span>):</p>
+<div class="arithmatex">\[
+\begin{gather}
+\mathbf{a}_1 = \mathbf{X} \mathbf{W}_1, \\
+\mathbf{a}_2 = \mathbf{a}_1 \mathbf{W}_2, \\
+\dots \\
+\hat{\mathbf{y}} = \mathbf{a}_{n-1} \mathbf{W}_n.
+\end{gather}
+\]</div>
+<p>Сложная, расширяемая архитектура с возможностью добавления специальных слоев для анализа изображений и текста сделала нейронные сети одной из самых популярных моделей машинного обучения. Мы разбирали нейронные сети более подробно в <a href="../../../04/18/nn/">другой статье</a>.</p>
+<h2 id="types">Классификация задач</h2>
+<p>Мы затронули разные ML задачи, теперь попробуем их систематизировать. Все задачи делятся на:</p>
+<ul>
+<li>обучение с учителем;</li>
+<li>обучение без учителя;</li>
+<li>обучение с подкреплением.</li>
+</ul>
+<p>В первом случае у нас есть не только данные, но и разметка. То есть, та величина, которую мы хотим предсказывать, есть в нашем наборе данных. Пока что все задачи, которые я упомянул, попадают именно в эту категорию, поэтому тут отдельно останавливаться не будем. Скажу только, что среди основных задач здесь выделяют <em>регрессию</em> и разные варианты <em>классификации</em>.</p>
+<p>В задачах регрессии мы предсказываем некоторую непрерывную величину — например температуру воздуха или стоимость квартиры. А при классификации относим объект к одной из нескольких категорий. Если категории всего две, например, болен/здоров или одобрить/отказать, задачу классификации называют <em>бинарной</em>. А если категорий больше, например, нужно определить конкретную болезнь из перечня или угадать объект на изображении, то <em>мультиклассовой</em>.</p>
+<p>Обучение без учителя наоборот, подразумевает отсутствие разметки. В эту категорию попадают задачи <em>кластеризации</em>, то есть разбиения объектов на группы. Например, у вас есть данные абонентов сотовой компании, и вам нужно выделить среди них группы, чтобы создать новую линейку тарифов. </p>
+<p>Алгоритм кластеризации сможет выделить нужное количество групп исходя из данных абонентов, которые вы посчитаете важными. Например, это могут быть возраст, расходы на звонки за последний месяц и расходы на интернет за последний месяц. Набор данных в этом случае можно будет представить как точки в трехмерном пространстве, и работа алгоритмов кластеризации сводится просто к тому, чтобы немного разными способами найти отчетливые скопления точек. Их как раз и называют <em>кластерами</em>. Все близкие точки — то есть абоненты — будут отнесены к одному кластеру:</p>
+<p><img alt="Кластеризация: пример" src="../../../../images/posts/ml/task_clustering.png" /></p>
+<p>Полученные кластеры нужно будет проанализировать, чтобы составить примерные портреты абонентов. Например, в кластер, обозначенный синим, попали люди старшего возраста, которые тратят много денег на звонки и почти не пользуются интернетом. Красный кластер составляют в основном молодые люди, которые наоборот, активно пользуются интернетом и редко пользуются обычными звонками. А в зеленый кластер попали абоненты среднего возраста, которые активно пользуются и тем, и другим.</p>
+<p>Кроме кластеризации к категории обучения без учителя также относится похожая задача — <em>детекция аномалий</em>. Она предполагает разделение всех объектов только на две группы: обычные и подозрительные. Например, для определения мошеннических транзакций или спама.</p>
+<p>И наконец обучение с подкреплением решает задачи, у которых нет немедленного правильного ответа. Вместо этого модель обучается принимать решения, которые могут оказаться удачными или фатальными только в долгосрочной перспективе. </p>
+<p>К таким задачам относятся, например, торговля на бирже, автономная навигация или игры. Эти задачи объединяет невозможность просчета всех возможных исходов — например, даже в шахматах число всех возможных партий составляет примерно <span class="arithmatex">\(10^{120}\)</span>. Кроме того, отдельно взятый ход или действие очень редко можно считать однозначно выигрышным или проигрышным. Оба этих фактора не позволяют использовать обучения с учителем, чтобы заставить модель предсказывать нужный ход.</p>
+<p>Вместо этого обучение с подкреплением использует стратегию проб и ошибок: модели (которую здесь называют <em>агентом</em>) дают свободу действий и устанавливают систему наград и штрафов. Например, модель, играющая в шахматы, может получать по одному очку за каждый ход, по 10 очков за каждую съеденную фигуру соперника и терять 500 очков за проигранную партию.</p>
+<p>Несмотря на то, что модель не знает заранее, какое поведение является правильным, накопленный опыт позволяет ей постепенно открывать оптимальные стратегии. Иногда модели вырабатывают неординарные тактики поведения, которые человек на первый взгляд счел бы нелогичными.</p>
+<p>В дополнение к этим категориям можно ввести категории по типу модели. Обучение любых моделей кроме нейронных сетей называют <em>классическим</em> машинным обучением, а обучение нейронных сетей — <em>глубоким</em> обучением. Этот термин ввел Джеффри Хинтон во время последнего <a href="https://youtu.be/T2ZlOCGRA2Q" target="_blank">подъема нейронных сетей <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> в 2006 году, чтобы подчеркнуть их более сложную, многослойную архитектуру по сравнению с другими моделями машинного обучения.</p>
+<p>Поэтому сам факт использования даже небольшой нейронной сети для решения задачи технически уже переводит ее в область глубокого обучения. Хотя для большинства задач могут применяться разные модели, есть области, в которых нейронные сети доминируют. Это в первую очередь компьютерное зрение (<em>CV</em>) и обработка естественного языка (<em>NLP</em>).</p>
+<p>В CV и NLP кроме стандартных задач регрессии и классификации добавляются свои задачи, например локализация объектов на изображении, поиск в тексте ответов на вопросы, и даже генерация изображений и текстов. Для их решения используются нейронные сети с миллионами параметров, а именно благодаря генеративным моделям, таким как Midjourney и ChatGPT, о глубоком обучении сейчас знает буквально каждый.</p>
+<p>Перечисленные типы задач являются основными, но кроме них вы можете столкнуться с комбинированными и более нишевыми задачами из разных областей.</p>
+<h2 id="steps">Этапы ML проекта</h2>
+<p>Теперь пройдем по основным этапам, которе будет включать каждый ML проект. И перед началом стоит понять, нужен ли в принципе ML для решения задачи? ML стоит использовать только тогда, когда есть четкая проблема, решение которой принесет какое-то удобство или выгоду, и с этой проблемой не справились другие алгоритмы. </p>
+<p>Например, если вам нужно автоматически относить электронные письма к одной из нескольких категорий, вас может полностью устроить простой алгоритм, который ищет в тексте писем ключевые слова. Он может неправильно классифицировать несколько писем в месяц, но это не настолько большая проблема, чтобы переключаться с этого алгоритма на задачу NLP.</p>
+<p>Но ML может быть нужен для поиска подозрительных областей на медицинских снимках пациентов, чтобы сократить время приема врача в перегруженной больнице. Или новая рекомендательная система может быть нужна для того, чтобы увеличить время, которое пользователи проводят на сайте, что позволит показывать им больше рекламы или продать больше товаров.</p>
+<p>Если вы убедились в необходимости использования ML, время обсудить основные этапы проекта. </p>
+<h3 id="load">Загрузка данных</h3>
+<p>Первый шаг — загрузка данных. В ваших pet-проектах он может быть вообще незаметным. Данные популярных задач уже подготовлены в виде CSV файла или архива.</p>
+<p>Но в реальных проектах данные будут храниться в базах данных или озере данных, и сначала их понадобится оттуда забрать. В подавляющем большинстве случаев для этого будет использоваться SQL — язык запросов к реляционным (то есть табличным) базам данных. Именно поэтому его знание требуется в большинстве вакансий, связанных с Data Science.</p>
+<p>Запросы на языке SQL выглядят достаточно просто:</p>
+<p><div class="language-sql highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">SELECT</span><span class="w"> </span><span class="n">area</span><span class="p">,</span><span class="w"> </span><span class="n">distance_center</span><span class="p">,</span><span class="w"> </span><span class="n">price</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">FROM</span><span class="w"> </span><span class="n">Apartments</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">WHERE</span><span class="w"> </span><span class="n">sale_date</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="s1">&#39;2024-01-01&#39;</span><span class="p">;</span>
+</span></code></pre></div>
+<div class="language-text no-copy highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>area | distance_center | price  
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>-----+-----------------+------
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  35 |             2.1 |    12
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>  80 |             1.2 |    25
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>  45 |             7.8 |     9
+</span></code></pre></div></p>
+<p>Здесь мы получаем из таблицы <code>Apartments</code> о различных параметрах квартиры: площади (<code>area</code>), удаленности от центра города (<code>distance_center</code>) и рыночной стоимости (<code>price</code>). Нам нужны данные только тех квартир, которые были проданы недавно, поэтому мы накладываем фильтр по дате сделки (<code>sale_date</code>).</p>
+<p>Если на этом этапе вы не уверены, понадобятся ли вам определенные колонки, например, будет ли полезна этажность дома при расчете стоимости квартиры — лучше их загрузить.</p>
+<h3 id="eda">Разведочный анализ</h3>
+<p>После загрузки данных выполняют разведочный анализ. Анализ данных позволяет понять задачу лучше и выяснить, есть ли в данных какие-то проблемы.</p>
+<p>Вы можете начать с подсчета простых статистик для каждой колонки: среднего, минимума, максимума, медианы и стандартного отклонения. Также стоит посчитать матрицу корреляции и построить простейшие графики — гистограммы для колонок с непрерывными значениями и столбчатые диаграммы для категориальных колонок.</p>
+<p>Этот базовый анализ позволит обнаружить основные проблемы и подсветить некоторые закономерности. Вы можете увидеть странные минимальные и максимальные значения — например, отрицательное значение возраста, или значение 150 в колонке с количеством этажей. А нулевая или слишком маленькая дисперсия будет значить, что все значения в этой колонке практически совпадают. Все это повод проверить предыдущий шаг и убедиться, что ваши данные загрузились правильно.</p>
+<p>На гистограммах и столбчатых диаграммах вы можете увидеть особенности распределения и обнаружить <em>выбросы</em> — слишком большие, маленькие или редкие значения:</p>
+<p><img alt="Разведочный анализ: гистограммы и столбчатые диаграммы" src="../../../../images/posts/ml/eda_distributions.png" /></p>
+<p>Например, на гистограмме стоимости билета можно увидеть, что распределение смещено влево — это значит, что было продано больше дешевых билетов, чем дорогих. Распределение также имеет тяжелый хвост, соответствующий билетам бизнес-класса. А столбчатая диаграмма аэропорта прибытия показывает, что только незначительная часть рейсов направлялась в аэропорт Жуковский (ZIA).</p>
+<p>Матрица корреляции показывает линейную зависимость между каждой парой колонок. Каждое число в ней принимает значение от минус единицы до единицы. Значения, близкие к единице, означают сильную положительную зависимость, близкие к минус единице — сильную отрицательную, а близкие к нулю — отсутствие линейной зависимости.</p>
+<p>Так как матрица корреляции симметрична и каждая колонка идеально коррелирует сама с собой, обычно показывают только часть матрицы ниже диагонали:</p>
+<p><img alt="Разведочный анализ: матрица корреляции" src="../../../../images/posts/ml/eda_correlation_matrix.png" /></p>
+<p>Здесь колонки A-D обозначают количество часов, которые пользователи стримингового сервиса потратили на просмотр кино в разных категориях: экшен (A), триллер (B), романтическая комедия (C) и драма (D). Матрица корреляции показывает сильную положительную зависимость между колонками A и B (любители экшена часто смотрят триллеры), отрицательную — между A и C (аудитория экшен-кино редко смотрит романтические комедии), и положительную — между C и D (аудитория романтических комедий также любит драмы).</p>
+<p>Перечисленные шаги составят хорошую базу для разведочного анализа данных, а дальнейшие действия будут зависеть от обнаруженных проблем и специфики задачи. Чем больше информации вы соберете на этом этапе, тем легче будет работать более поздних этапах.</p>
+<h3 id="clean">Очистка данных</h3>
+<p>Следующий шаг — очистка данных. Это время исправить проблемы, которые вы обнаружили во время разведочного анализа.</p>
+<p>От строк, содержащих выбросы или редкие значения, придется избавиться. Помним, что модели нужно много примеров решения задач, и если у банка всего 500 клиентов из 100,000 имеют докторскую степень в графе "Образование", модель так и не научится грамотно ее воспринимать. Возможно, стоит убрать этих клиентов из выборки или заменить их образование на высшее.</p>
+<p>Так же поступают и с выбросами. Например, у нас могут быть данные квартир из двухэтажных сталинских домов и единственного на город 40-этажного здания. Их стоит убрать из выборки.</p>
+<p>Наконец, в некоторых колонках могут быть пропущенные значения. Большинство моделей не умеет с ними работать. Поэтому тут в зависимости от количества пропусков стоит отказаться от таких колонок в принципе, убрать только строки с пропусками или заменить пропуски средними значениями.</p>
+<p>Например, если 80% пользователей отказались указывать свой возраст при регистрации, колонка с возрастом будет бесполезна. А если возраст пропущен только у 5% пользователей, стоит удалить строки с пропусками или попробовать заменить их средним возрастом в выборке.</p>
+<p>После очистки данных можно повторить основные шаги <a href="#eda">разведочного анализа</a> — это позволит убедиться, что проблемы решены.</p>
+<h3 id="features">Выбор признаков</h3>
+<p>Дальше выбирают колонки, соответствующие наиболее важным признакам для поставленной задачи, именно по ним модель будет делать предсказание.</p>
+<p>На первый взгляд может показаться, что стоит использовать все колонки, чтобы учесть влияние каждого фактора на результат, даже если оно незначительное. Но проблема в том, что слишком большое количество признаков, как правило, наоборот, мешает модели добиться адекватных результатов — этот эффект называют <em>проклятием размерности</em>.</p>
+<p>Это происходит потому, что большинство моделей придает всем признакам одинаковый вес. И чем больше признаков, тем выше риск, что модель найдет закономерности там, где их нет — просто из-за случайных совпадений. Например, модель, обученная на исчерпывающем наборе данных пациентов, может завышать риск инфаркта пациентов с зелеными глазами, потому что в наборе данных чуть большее количество таких пациентов пострадало от инфаркта.</p>
+<p>Поэтому стоит начинать с небольшого количества самых важных признаков. Их выбор может подсказать эксперт с работы, здравый смысл или матрица корреляции. Позже можно вернуться к этому этапу и попытаться улучшить результат за счет выбора дополнительных признаков.</p>
+<p>В задачах CV и NLP подготовка данных выглядит по-другому. Здесь выбор признаков не требуется, но сами данные — изображения или текст — должны быть приведены в структурированную числовую форму.</p>
+<p>Любое изображение по сути уже представляют собой таблицу или матрицу — это равномерная сетка из пикселей разного цвета. Остается разложить цвет по цветовым каналам, то есть выразить его через интенсивность базовых оттенков. Например, в палитре RGB цвет раскладывают на красный (R), зеленый (G) и синий (B):</p>
+<p><img alt="Пример разложения изображения по палитре RGB" src="../../../../images/posts/ml/rgb_palette.png" /></p>
+<p>Интенсивность оттенка обычно выражают числом от 0 до 255. Таким образом, изображение будет представлять собой матрицу размером <span class="arithmatex">\((h \times w \times c)\)</span>, где <span class="arithmatex">\(h\)</span> — высота, <span class="arithmatex">\(w\)</span> — ширина, <span class="arithmatex">\(c\)</span> — количество цветовых каналов.</p>
+<p>С текстом все немного сложнее. Процесс перевода текста в числовую форму называют <em>токенизацией</em> и выполняют с помощью одного из нескольких алгоритмов. Например, текст можно разбить на символы и сопоставить каждому символу уникальное число:</p>
+<div class="arithmatex">\[
+\text{быть или не быть} \rightarrow [2, 29, 20, 28, 0, 10, 13, 10, 0, 15, 6, 0, 2, 29, 20, 28].
+\]</div>
+<p>Здесь вместо каждой буквы был использован ее порядковый номер в алфавите и нули вместо пробелов.</p>
+<p>Другой способ — закодировать слова целиком:</p>
+<div class="arithmatex">\[
+\text{быть или не быть} \rightarrow [2098, 0, 421, 0, 301, 0, 2098].
+\]</div>
+<p>Конкретное число, соответствующее каждому слову, может соответствовать его порядку в словаре или может быть выбрано случайным образом. Так же, как и в предыдущем примере, пробелам и спецсимволам здесь нужно будет назначить уникальные числа.</p>
+<p>У обоих подходов есть свои преимущества и недостатки. При побуквенной токенизации размер словаря будет небольшим, а вероятность наткнуться в новом тексте на незнакомый символ — крайне низкой. Но любую модель, работающую с текстом на уровне букв, будет тяжелее обучить понятию <em>слова</em>, его смысла и подходящего контекста. </p>
+<p>Токенизация на уровне слов устраняет эту проблему, так как модель изначально работает со словами. Но словарь токенизации в этом случае получится огромным — его размер должен быть примерно равен количеству слов в языке. А в языках с падежами и более свободными правилами словообразования, например в русском или немецком, размер словаря может стать еще больше.</p>
+<p>Поэтому на практике обычно кодируют наиболее часто встречающиеся части слов, которые которые могут соответствовать <em>морфемам</em>: приставкам, суффиксам, корням или окончаниям. Это позволяет уменьшить размер словаря, при</p>
+<p>, но сохранить возможность работы на уровне слов. При этом кодировка похожих слов, например "синий" и "синеватый" также будет схожей. Именно такой подход используется, например, в ChatGPT и других в современных языковых моделях.</p>
+<h3 id="train">Обучение</h3>
+<p>Теперь, когда набор данных готов, можно перейти к обучению модели. Это довольно простой этап, на котором, как правило, запускают несколько функций или методов с нужными параметрами.</p>
+<p>Но перед этим важно разделить набор данных на две части — одну для обучения, и вторую — для валидации. Разделение выполняют случайным образом. Для обучения берут большую часть — от 50 до 90%, а для валидации — меньшую:</p>
+<p><img alt="Разбиение выборки" src="../../../../images/posts/ml/train_test_split.png" /></p>
+<p>Использование набора данных для валидации — единственный способ проверить, что модель дает хорошие результаты на новых данных до того, как новые данные действительно появятся. Проверять модель только на обучающей выборке — это как спрашивать студента только по билету, ответ на который тот мог зазубрить.</p>
+<p>После обучения модели на выборке обучения получают предсказания на выборке валидации и сравнивают их с правильными значениями. Для сравнения используют <em>метрики</em> — наиболее удобные и понятные или те, которые от вас потребуют. Например, для задач регрессии это может быть средний процент отклонения, а для задач классификации — точность предсказаний модели.</p>
+<p>Например, так в коде выглядит обучение <a href="#lr">линейной регрессии</a>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.linear_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">LinearRegression</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># Подготовка данных</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">X</span> <span class="o">=</span> <span class="o">...</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">y</span> <span class="o">=</span> <span class="o">...</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Инициализация и обучение</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="n">model</span> <span class="o">=</span> <span class="n">LinearRegression</span><span class="p">()</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Если вас устраивают полученные метрики, можно переходить к следующему этапу, а если нет, стоит вернуться на шаг назад, переосмыслить выбор признаков или использовать другую модель.</p>
+<h3 id="deploy">Развертывание</h3>
+<p>Последний этап может быть загадкой даже для тех, кто уже работает в Data Science, потому что им часто занимаются другой специалист — ML инженер. Его задача — встроить обученную модель в сервис или приложение, с которыми будут взаимодействовать конечные пользователи. </p>
+<p>Data Scientist сохраняет обученную модель в виде бинарного файла и загружает ее в репозиторий моделей.  так же, как и любой другой файл, и передает ее ML инженеру. ML инженер пишет код, который загрузит модель из файла и 
+в котором эта модель будет загружена и сможет давать предсказания для новых задач. В большинстве случаев пишется небольшой бэкенд сервер — в Python это можно сделать с помощью фреймворков FastAPI, Django или Flask.</p>
+<p>Благодаря этому можно будет отправить HTTP запрос с параметрами нового объекта и получить ответ от модели. Все это поддерживает концепцию микросервисной архитектуры, в которой на основе нашей модели создается небольшой отдельный сервис.</p>
+<p>такой подход называется <em>микросервисным</em>.</p>
+<p>К нему могут обращаться другие сервисы, написанные на других языках. Например, пользователь может заполнить форму на сайте, а при нажатии на кнопку будет отправлен HTTP запрос к сервису с моделью, которая даст новое предсказание.</p>
+<h2 id="example">Пример проекта</h2>
+<p>Чтобы запомнить все основные шаги, разберем пример проекта от идеи до развертывания.</p>
+<p>Предположим, что вас наняли в Data Science команду сайта-агрегатора объявлений недвижимости. Сайт сотрудничает с банками, заключающими договоры ипотеки, поэтому у вас также есть информация о финальной стоимости сделки по каждой проданной квартире.</p>
+<p>Вас просят обучить модель для предсказания финальной стоимости сделки по параметрам квартиры. Это нужно для того, чтобы добавить на сайт галочку "Рыночная цена", которая будет отображаться у объявлений с адекватной ценой. Так пользователи сразу узнают, что цена завышена или подозрительно занижена, что позволит избежать неудачных сделок и повысит доверие к сайту. Так как конкретная рыночная стоимость на странице объявления выводиться не будет, погрешность предсказаний цены в 10% всех устроит.</p>
+<p>Теперь обсудим ваши действия:</p>
+<ul>
+<li><strong>Загрузка данных</strong>. Данные квартир и сделок хранятся в разных SQL таблицах. Вы пишете запрос, который их объединяет и забирает большинство информативных колонок с параметрами квартиры. Также с учетом того, что данных много, а цены на рынке недвижимости меняются, вы отфильтровываете все сделки, совершенные более года назад.</li>
+<li><strong>Разведочный анализ</strong>. Данные всех колонок находятся в разумном диапазоне, но с помощью анализа распределения вы обнаруживаете небольшое количество выбросов: квартиры из очень старых аварийных домов и элитные квартиры с очень высокой стоимостью. Матрица корреляции не показывает неожиданных зависимостей. Кроме этого вы обнаруживаете пропуски — материал стен здания не указан у 40% квартир.</li>
+<li><strong>Очистка данных</strong>. Так как выбросов не более 1%, вы удаляете соответствующие квартиры из выборки. Материал стен здания можно было бы попытаться восстановить исходя из других данных (года постройки и материала стен зданий в том же районе), но так как этот признак кажется вам не слишком важным, вы решаете убрать эту колонку. После очистки в наборе данных остается 100,000 квартир.</li>
+<li><strong>Выбор признаков</strong>. Опираясь на матрицу корреляции, вы решаете для начала выбрать 3 признака, показавших наибольшую связь со стоимостью квартиры: площадь, количество комнат и расстояние от центра.</li>
+<li><strong>Обучение</strong>. Вы разбиваете набор данных на выборку обучения (70,000 случайных квартир) и выборку валидации (оставшиеся 30,000 квартир), а в качестве модели выбираете линейную регрессию. </li>
+</ul>
+<p>После обучения модель в среднем дает 17% отклонение от реальной стоимости квартиры на выборке валидации. Это неплохой результат для первой попытки, но вас просят снизить ошибку. Придется вернуться на несколько шагов назад и переосмыслить свои действия.</p>
+<p>Вы советуетесь с оценщиком недвижимости с вашей работы и по его рекомендации добавляете к признакам наличие балкона и состояние ремонта — плохое или удовлетворительное.</p>
+<p>С новыми признаками ошибка модели снижается до 12%, а при использовании градиентного бустинга — это модель на основе <a href="#tree">деревьев решений</a> — до 7%. Вы сохраняете свой код, сохраняете модель и передаете ее ML инженеру, который создаст для нее небольшой сервис с HTTP API. К нему будут отправляться запросы при добавлении новых или обновлении существующих объявлений.</p>
+<h2 id="issues">Основные проблемы</h2>
+<p>Мы обсудили идеализированный вариант проекта, но на практике на любом из его этапов могут возникнуть дополнительные трудности. Предлагаю отдельно их разобрать.</p>
+<h3 id="signal">Отсутствие сигнала</h3>
+<p>Первое, на чем ваш проект может закончиться — некачественные данные. Мы видели пропуски и выбросы в отдельных случаях. Но если таких проблем слишком много, данные становятся полностью непригодными для обучения.</p>
+<p>Например, представьте сайт недвижимости, где большинство собственников загружает только фотографии квартир, а точные детали предпочитает сообщать по телефону. Тогда поля с параметрами либо вообще не заполняются, либо заполняются мусором — нулями или прочерками. После очистки таких данных у вас может не остаться вообще ничего полезного.</p>
+<p>Эта проблема называется <em>отсутствием сигнала</em>. Это ситуация, когда даже эксперт не может дать правильную оценку по имеющимся данным. Признаки просто не коррелируют с результатом.</p>
+<p>Отсутствие сигнала не всегда говорит о плохих данных. Иногда задача просто нерешаема с имеющейся информацией. Например, невозможно построить адекватную модель для прогноза стоимости акций, опираясь только на предыдущие данные об их стоимости. Все потому, что на рынок влияют политические события, экономические новости и решения центробанков. Без этой информации рост или падение акций выглядит как случайность.</p>
+<h3 id="bias">Смещение</h3>
+<p>Даже если данные содержат сигнал, они могут оказаться бесполезными из-за смещенной выборки. Чаще всего это происходит, если объекты попали в выборку <em>не случайно</em> или при подготовке данных была пропущена часть важных тенденций.</p>
+<p>Например, вы могли слышать, что многие системы распознавания лиц работают хорошо только с людьми европеоидной расы. Это происходит потому, что фотографий людей других рас в выборке обучения часто оказывается намного меньше. Да, именно в случае ML недостаточная репрезентация создает реальные проблемы.</p>
+<p>Смещение в результате пропуска части тенденций проще всего объяснить на примере рекомендательной системы. В выборке обучения скорее всего будут преобладать данные пользователей, которые используют сервис давно, и система будет работать в основном над их удержанием. Но новые пользователи, которые быстро потеряли интерес, пройдут мимо алгоритмов, хотя думать о них стоило бы в первую очередь.</p>
+<p>Самое худшее в этой проблеме то, что она не помешает вам обучить модель и не приведет к ухудшению метрик. Наоборот, пропуск части тенденций может облегчить работу модели и повысить ее показатели. Поэтому старайтесь внимательно проводить разведочный анализ и всегда думайте, отражают ли ваши данные полную картину.</p>
+<h3 id="overfitting">Переобучение</h3>
+<p>Другие проблемы возникают при обучении модели. Одна из них настолько известна, что вы могли о ней слышать, даже если только вскользь интересовались ML — это переобучение.</p>
+<p>Эта проблема возникает в основном когда на маленьком объеме данных обучают достаточно сложную модель. Под сложной моделью я имею в виду модель с большим количеством параметров — к таким относятся например <a href="#nn">нейронные сети</a>. </p>
+<p>Такая модель может использовать большое количество параметров для того, чтобы по сути запомнить правильные ответы вместо того, чтобы изучить зависимость. А поскольку в процессе обучения модель должна добиться минимального отклонения предсказаний только на тренировочной выборке, к новым задачам из выборки валидации она будет не готова.</p>
+<p>В итоге ошибки модели на тренировочной выборке будут практически нулевыми, а на выборке валидации — огромными. Соответственно, такая модель на практике будет абсолютно бесполезна.</p>
+<p>Самый очевидный шаг для борьбы с переобучением — увеличение объема данных, но к сожалению, в большинстве случаев это невозможно. Тогда единственным способом остается выбор более простой модели или искусственное ограничение сложности — это называется <em>регуляризацией</em>.</p>
+<p>У каждой модели есть свои техники регуляризации, но я приведу пример на деревьях. Как вы помните, дерево решений рекурсивно разбивает выборку на две части, добиваясь того, чтобы в итоге каждая из полученных частей имела схожее значение результата. Этот безобидный алгоритм на самом деле имеет огромную склонность к переобучению, так как процесс разбиения может продолжаться до тех пор, пока каждая часть не будет состоять всего из нескольких объектов:</p>
+<p><img alt="Переобучение: пример на деревьях" src="../../../../images/posts/ml/decision_tree_overfit.png" /></p>
+<p>Это позволит достичь ошибки на выборке обучения, близкой к нулю. Но полученное дерево будет состоять из огромного количества бесполезных правил. Например, определять бактериальную инфекцию только у пациентов старше 35 лет, и только при продолжительности симптомов от 4 до 5 дней.</p>
+<p>Чтобы справиться с таким поведением дерева, достаточно ограничить его максимальную глубину. Дерево, которое может разбить выборку только на ограниченное количество частей, будет стремиться выбрать наиболее эффективное разбиение. В результате оно может давать ошибки в отдельных случаях, но при этом верно отражать общие закономерности.</p>
+<p>Есть и противоположная проблема — недообучение. В отличие от переобучения ее намного сложнее заметить. Недообучение заключается в нераскрытом потенциале ML и чаще всего происходит, когда для сложной задачи выбирают слишком простую модель с небольшим количеством параметров. В результате мы увидим значительные отклонения как на выборке обучения, так и на выборке валидации. Эта проблема решается наоборот — выбором более сложной модели.</p>
+<h3 id="drift">Дрейф данных</h3>
+<p>Последние две проблемы могут возникнуть, когда модель активно используется. Подумайте о том, что именно выучила ваша модель. Она научилась воспроизводить решение задачи, основываясь на срезе данных, который вы дали ей во время обучения. </p>
+<p>Подвох в том, что зависимости в данных могут со временем измениться — это называется <em>дрейфом данных</em>. Например, введение льготной ипотеки за короткий срок значительно увеличило стоимость жилья, которое наша модель, обученная на старых ценах, теперь будет сильно занижать. Точно так же спаммеры могли начать использовать латиницу вперемешку с кириллицей, чтобы замаскировать подозрительные слова. У болезней, диагностируемых нашей моделью, могли появиться новые симптомы, которые она не берет во внимание.</p>
+<p>Для предотвращения дрейфа данных нужно периодически переобучать модель на свежих данных и следить за актуальными тенденциями. Кроме того, метрики моделей стараются мониторить в реальном времени, чтобы не обнаружить проблему слишком поздно.</p>
+<h3 id="warranty">Отсутствие гарантий</h3>
+<p>Еще один нюанс, из которого вытекает последняя проблема, я ни разу явно не озвучил, хотя он напрашивался. Дело в том, что стандартные алгоритмы дают гарантии адекватного поведения в краевых случаях и возможность анализа результата. А вот с ML моделями в этом плане все сложно.</p>
+<p>Нет других способов повлиять на их поведение кроме данных. Если мы хотим, чтобы модель точнее оценивала стоимость автомобилей с большим пробегом, мы можем этого добиться только если увеличим количество автомобилей с большим пробегом в выборке. </p>
+<p>И даже самая точная модель может периодически делать бессмысленные предсказания. Например, дать объекту отрицательную стоимость, сделать нелогичную рекомендацию или отнести банковский перевод на день рождения к мошенническим операциям. Это риск, на который вы должны быть готовы, используя ML в своих проектах.</p>
+<h2 id="learn">Как освоить ML</h2>
+<p>Последнее, что сегодня хотелось бы обсудить — как освоить ML и с чего в принципе начать.</p>
+<p>Подход к изучению зависит от ваших целей. Если вы учите ML для себя, то в целом не вижу смысла следовать какому-то четкому роудмапу. Просто берите задачи, которые вам понравились больше всего — можете сразу начать с нейросетей и компьютерного зрения.</p>
+<p>А тем, кто хочет найти работу, я советую начать с Classic ML и только потом перейти к разбору более нишевых задач. Все потому, что большинство вакансий на рынке именно по задачам Classic ML. И даже если вы будете проходить интервью по другой специализации, вам все равно будут задавать вопросы по Classic ML.</p>
+<p>Если вам кажется, что Classic ML в отличие от Deep Learning — скучная область, это не так. В нее входит огромное количество интересных моделей и алгоритмов, которые не так сложно освоить. Это улучшит вашу интуицию и способность смотреть на задачи под разным углом.</p>
+<p>Теперь о математике — в ML ее действительно достаточно, чтобы отпугнуть даже самых старательных. Но поскольку мы занимаемся <em>прикладной</em> математикой, разработчики библиотек позаботились о вас и скрыли всю математику за слоями абстракции, оставив на поверхности пару удобных методов.</p>
+<p>Поэтому — к счастью или к сожалению — математику в ML глубоко знать не нужно. Вам достаточно понимать базовые концепции работы моделей, немного глубже чем я объяснил в этом видео, и с большим количеством деталей.</p>
+<p>И нужно это не только для ответов на хитрые вопросы с интервью, но и для понимания причин проблем в реальных проектах. Без этого вы будете делать глупые шаги и не сможете их исправить.</p>
+<p>Например, на нашем сайте объявлений появились квартиры из недавно достроенного элитного ЖК. Стоимость квартир там чуть выше максимальной стоимости любой квартиры из выборки обучения. К вам подходит менеджер и спрашивает: будет ли текущая модель нормально работать с квартирами из нового ЖК?</p>
+<p>Если вы изучите алгоритм дерева решений чуть глубже, то узнаете, что оно здесь не справится, зато справится линейная регрессия. И таких нюансов в ML проектах еще очень много.</p>
+<h2 id="end">Заключение</h2>
+<p>На этом у меня все. Местами я сильно упростил материал и мог допустить неточности, поэтому буду рад любым комментариям и уточнениям. Их можно закинуть через <a href="https://github.com/mouseml/blog/issues" target="_blank">GitHub Issues <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> или в <a href="https://www.t.me/ml_mouse" target="_blank">Telegram <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
+<p>Все, о чем мы сегодня говорили, будем изучать более подробно в следующих разборах. Поэтому добавляйте блог в закладки и подписывайтесь на <a href="https://www.youtube.com/channel/UCscWjyvPudzdIaGCCtEL3nw" target="_blank">YouTube канал <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. Увидимся в код ревью, всем пока!</p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+
+
+  
+
+
+
+      
+    </article>
+  </div>
+
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+        
+      
+      <nav class="md-footer__inner md-grid" aria-label="Нижний колонтитул" >
+        
+        
+          
+          <a href="../../../04/18/nn/" class="md-footer__link md-footer__link--next" aria-label="Вперед: Нейронные сети - теория и практика в PyTorch">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Вперед
+              </span>
+              <div class="md-ellipsis">
+                Нейронные сети - теория и практика в PyTorch
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2025 мыш <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/deed.ru" target="_blank" rel="noopener">CC BY-NC-ND 4.0</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://www.youtube.com/channel/UCscWjyvPudzdIaGCCtEL3nw" target="_blank" rel="noopener" title="YouTube" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305m-317.51 213.508V175.185l142.739 81.205z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="https://www.t.me/ml_mouse" target="_blank" rel="noopener" title="Telegram" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M248 8C111.033 8 0 119.033 0 256s111.033 248 248 248 248-111.033 248-248S384.967 8 248 8m114.952 168.66c-3.732 39.215-19.881 134.378-28.1 178.3-3.476 18.584-10.322 24.816-16.948 25.425-14.4 1.326-25.338-9.517-39.287-18.661-21.827-14.308-34.158-23.215-55.346-37.177-24.485-16.135-8.612-25 5.342-39.5 3.652-3.793 67.107-61.51 68.335-66.746.153-.655.3-3.1-1.154-4.384s-3.59-.849-5.135-.5q-3.283.746-104.608 69.142-14.845 10.194-26.894 9.934c-8.855-.191-25.888-5.006-38.551-9.123-15.531-5.048-27.875-7.717-26.8-16.291q.84-6.7 18.45-13.7 108.446-47.248 144.628-62.3c68.872-28.647 83.183-33.623 92.511-33.789 2.052-.034 6.639.474 9.61 2.885a10.45 10.45 0 0 1 3.53 6.716 43.8 43.8 0 0 1 .417 9.769"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.tabs", "navigation.footer", "content.code.copy"], "search": "../../../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u041a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0415\u0449\u0451 1 \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.more.other": "\u0415\u0449\u0451 # \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.none": "\u0421\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0435", "search.result.other": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439: #", "search.result.placeholder": "\u041d\u0430\u0447\u043d\u0438\u0442\u0435 \u043f\u0435\u0447\u0430\u0442\u0430\u0442\u044c \u0434\u043b\u044f \u043f\u043e\u0438\u0441\u043a\u0430", "search.result.term.missing": "\u041e\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0443\u0435\u0442", "select.version": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0432\u0435\u0440\u0441\u0438\u044e"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      
+        <script src="../../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
