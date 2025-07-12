@@ -815,7 +815,7 @@
 </span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
 </span></code></pre></div>
 <div class="language-text no-copy highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>tensor([1, 2, 3])
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>tensor([1.2000, 3.6000, 2.4000])
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>tensor([0.6000, 1.2000, 0.9000])
 </span></code></pre></div></p>
 <p>Большая часть работы нейронных сетей построена на базовых математических операциях между тензорами, таких как сложение и умножение. Для них не нужно писать циклы: работайте с тензорами так же как работали бы с числами. Например, умножим тензор <code>a</code> на 3 и возведем тензор <code>b</code> в квадрат:</p>
 <p><div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
@@ -1550,7 +1550,7 @@ x \leftarrow x - \alpha \frac{\partial f}{\partial x}.
 \]</div>
 <p>Чтобы понять, что здесь происходит, перепишем эту формулу в скалярной форме применительно к нашей задаче:</p>
 <div class="arithmatex">\[
-\text{Оценка} = \mathbf{w}_1 \text{Алкоголь} + \mathbf{w}_2 \text{Кислотность} + \dots + b.
+\text{Оценка} = \mathbf{w}_1 \cdot \text{Алкоголь} + \mathbf{w}_2 \cdot \text{Кислотность} + \dots + b.
 \]</div>
 <p>Оценка вина равна сумме произведений обучаемых параметров модели <span class="arithmatex">\(\mathbf{w}_i\)</span> и значений признаков. Каждый из параметров характеризует положительное или негативное влияние признака на итоговую оценку вина. К сумме произведений добавляется смещение <span class="arithmatex">\(\mathbf{b}\)</span>, которое можно интерпретировать как примерную оценку средней бутылки вина — не хорошего, но и не плохого. </p>
 <p>Нейронная сеть с большим количеством слоев будет иметь несколько матриц весов и смещений. Она вычислит взвешенные комбинации признаков несколько раз прежде чем делать предсказание. Мы обсуждали это более подробно в отдельном <a href="../../../04/18/nn/">разборе про нейронные сети</a>, поэтому если вам здесь что-то будет непонятно, можете туда заглянуть.</p>
@@ -1719,7 +1719,7 @@ b \leftarrow b - \alpha \nabla_{b} \mathcal{L}.\\
       <nav class="md-footer__inner md-grid" aria-label="Нижний колонтитул" >
         
           
-          <a href="../../../04/18/nn/" class="md-footer__link md-footer__link--prev" aria-label="Назад: Нейронные сети - теория и практика в PyTorch">
+          <a href="../../../04/18/nn/" class="md-footer__link md-footer__link--prev" aria-label="Назад: Нейронные сети — теория и практика в PyTorch">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1729,7 +1729,7 @@ b \leftarrow b - \alpha \nabla_{b} \mathcal{L}.\\
                 Назад
               </span>
               <div class="md-ellipsis">
-                Нейронные сети - теория и практика в PyTorch
+                Нейронные сети — теория и практика в PyTorch
               </div>
             </div>
           </a>
