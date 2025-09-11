@@ -2,8 +2,7 @@
 date: 2025-04-18
 slug: nn
 categories:
-  - DL
-  - Python
+  - Теория
 links:
   - Видео на YouTube: https://youtu.be/bUhyrgvkVFc
 ---
