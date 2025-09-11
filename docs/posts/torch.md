@@ -2,8 +2,7 @@
 date: 2025-07-10
 slug: torch
 categories:
-  - DL
-  - Python
+  - Библиотеки
 links:
   - Видео на YouTube: https://youtu.be/8l_aDqLRrVg
 ---

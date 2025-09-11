@@ -1,4 +1,4 @@
-site_name: "мыш"
+site_name: "мыш блог"
 site_description: "Нескучные туториалы по Python и ML"
 site_url: "https://mouseml.github.io/blog"
 repo_url: "https://github.com/mouseml/blog"
@@ -35,10 +35,10 @@ plugins:
   - blog:
       blog_dir: .
       categories_allowed:
-        - ML
-        - DL
-        - Python
+        - Теория
+        - Портфолио
         - История
+        - Библиотеки
 extra:
   social:
     - icon: fontawesome/brands/youtube
@@ -66,6 +66,7 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - tables
 extra_javascript:
   - javascripts/mathjax.js
   - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
