@@ -22,7 +22,7 @@
     
     
       
-        <title>Машинное обучение — все что нужно знать - мыш</title>
+        <title>Машинное обучение — все что нужно знать - мыш блог</title>
       
     
     
@@ -98,7 +98,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Верхний колонтитул">
-    <a href="../../../.." title="мыш" class="md-header__button md-logo" aria-label="мыш" data-md-component="logo">
+    <a href="../../../.." title="мыш блог" class="md-header__button md-logo" aria-label="мыш блог" data-md-component="logo">
       
   <img src="../../../../images/icon.svg" alt="logo">
 
@@ -111,7 +111,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            мыш
+            мыш блог
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -268,12 +268,12 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Навигация" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../../.." title="мыш" class="md-nav__button md-logo" aria-label="мыш" data-md-component="logo">
+    <a href="../../../.." title="мыш блог" class="md-nav__button md-logo" aria-label="мыш блог" data-md-component="logo">
       
   <img src="../../../../images/icon.svg" alt="logo">
 
     </a>
-    мыш
+    мыш блог
   </label>
   
     <div class="md-nav__source">
@@ -487,12 +487,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../category/dl/" class="md-nav__link">
+      <a href="../../../../category/%D0%B1%D0%B8%D0%B1%D0%BB%D0%B8%D0%BE%D1%82%D0%B5%D0%BA%D0%B8/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    DL
+    Библиотеки
     
   </span>
   
@@ -512,12 +512,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../category/ml/" class="md-nav__link">
+      <a href="../../../../category/%D0%BF%D0%BE%D1%80%D1%82%D1%84%D0%BE%D0%BB%D0%B8%D0%BE/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    ML
+    Портфолио
     
   </span>
   
@@ -537,12 +537,12 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../../category/python/" class="md-nav__link">
+      <a href="../../../../category/%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
-    Python
+    Теория
     
   </span>
   
@@ -851,8 +851,7 @@
                           <span class="md-ellipsis">
                             В
                             
-                              <a href="../../../../category/ml/">ML</a>, 
-                              <a href="../../../../category/dl/">DL</a></span>
+                              <a href="../../../../category/%D1%82%D0%B5%D0%BE%D1%80%D0%B8%D1%8F/">Теория</a></span>
                         </div>
                       </li>
                     
@@ -1108,10 +1107,8 @@ w_1 \\ w_2 \\ w_3
 <p>Если вас устраивают полученные метрики, можно переходить к следующему этапу, а если нет, стоит вернуться на шаг назад, переосмыслить выбор признаков или использовать другую модель.</p>
 <h3 id="deploy">Развертывание</h3>
 <p>Последний этап может быть загадкой даже для тех, кто уже работает в Data Science, потому что им часто занимаются другой специалист — ML инженер. Его задача — встроить обученную модель в сервис или приложение, с которыми будут взаимодействовать конечные пользователи. </p>
-<p>Data Scientist сохраняет обученную модель в виде бинарного файла и загружает ее в репозиторий моделей.  так же, как и любой другой файл, и передает ее ML инженеру. ML инженер пишет код, который загрузит модель из файла и 
-в котором эта модель будет загружена и сможет давать предсказания для новых задач. В большинстве случаев пишется небольшой бэкенд сервер — в Python это можно сделать с помощью фреймворков FastAPI, Django или Flask.</p>
-<p>Благодаря этому можно будет отправить HTTP запрос с параметрами нового объекта и получить ответ от модели. Все это поддерживает концепцию микросервисной архитектуры, в которой на основе нашей модели создается небольшой отдельный сервис.</p>
-<p>такой подход называется <em>микросервисным</em>.</p>
+<p>Data Scientist сохраняет обученную модель в виде бинарного файла и загружает ее в репозиторий моделей. ML инженер пишет код, который скачивает модель и делает с ее помощью новые предсказания для новых объектов. В большинстве случаев пишется небольшой back-end сервер — в Python это можно сделать с помощью фреймворков FastAPI, Django или Flask.</p>
+<p>Благодаря этому можно будет отправить HTTP запрос с параметрами нового объекта и получить ответ от модели. Все это поддерживает концепцию <em>микросервисной</em> архитектуры, в которой на основе нашей модели создается небольшой отдельный сервис.</p>
 <p>К нему могут обращаться другие сервисы, написанные на других языках. Например, пользователь может заполнить форму на сайте, а при нажатии на кнопку будет отправлен HTTP запрос к сервису с моделью, которая даст новое предсказание.</p>
 <h2 id="example">Пример проекта</h2>
 <p>Чтобы запомнить все основные шаги, разберем пример проекта от идеи до развертывания.</p>
