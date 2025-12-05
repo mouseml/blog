@@ -15,7 +15,7 @@ class DotProductResult(Scene):
             include_outer_lines=True,
         ).scale(0.7).move_to(6.8 * LEFT + 0.5 * DOWN, LEFT)
         w_table = DecimalTable(
-            [[0.4, 0.5, 0.9], [0.2, 0.2, 0.0]],
+            [[0.2, 0.5, 1.0], [0.7, 0.4, 0.4]],
             include_outer_lines=True,
         ).scale(0.7).move_to(2.9 * LEFT + 0.5 * DOWN, LEFT)
         y_table = DecimalTable(
