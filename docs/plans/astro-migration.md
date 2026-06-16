@@ -1,6 +1,6 @@
 # Migration plan: MkDocs Material → raw Astro
 
-- **Status:** in progress — step 1 (scaffold), branch `astro-migration` from `main`
+- **Status:** in progress — step 1 ✓ (Bun + Astro 6, serves at /blog); next: step 2. Branch `astro-migration` from `main`.
 - **Date:** 2026-06-16 (rev. 3 — dropped URL preservation; retired Python/Manim incl. deleting `scripts/`; in-place on a branch, not a new repo; folded in design prototype)
 - **Owner:** мыш (single dev)
 - **Verdict:** proceed. Migrate now while the corpus is ~7 posts.
@@ -9,7 +9,7 @@
 
 ## 1. Decision (locked)
 
-Replace MkDocs Material with **hand-built Astro**, on a **single TypeScript/Node toolchain**:
+Replace MkDocs Material with **hand-built Astro**, on a **single Bun + TypeScript toolchain** (Bun is already installed and is what the design prototype's dc-runtime builds with):
 
 - **Astro** (general content framework, not a docs theme) — the site is a video-companion content blog (a reverse-chron "Лента" feed of YouTube-thumbnail posts + full-text search), not an API-docs site.
 - **Build the look from scratch** (no Starlight). The design prototype (`../blog-prototype/`) is the reference: **dark-only brutalist** — pure black, white text, hairline `rgba(255,255,255,.16)` borders, no radius, no shadows.
@@ -87,11 +87,10 @@ Confirmed: shared links only ever pointed at the site root, not deep post URLs, 
 
 ### Phase 0 — Scaffold (Node/TypeScript only)
 
-- [ ] **1. Scaffold Astro at repo root.**
-  - *Changes:* `package.json`, `astro.config.mjs` (`site` + `base: '/blog'`), `tsconfig.json`, `src/`, `public/`, `.nvmrc`; pick package manager (recommend pnpm); gitignore `node_modules/`, `dist/`, `.astro/`. Coexists with MkDocs for now.
-  - *Breaks:* nothing — MkDocs untouched.
-  - *Verify:* `pnpm dev` serves a placeholder at `/blog`. No Python needed to run it.
-  - *Commit:* `Scaffold Astro project`
+- [x] **1. Scaffold Astro at repo root. ✓**
+  - *Changes:* `package.json`, `astro.config.mjs` (`site` + `base: '/blog'` + passthrough image service), `tsconfig.json`, `src/pages/index.astro` placeholder; gitignore `node_modules/`, `dist/`, `.astro/`. Bun resolved Astro 6.4.7. Coexists with MkDocs.
+  - *Verify:* ✓ `bun run build` succeeds; preview serves the placeholder at `/blog` (HTTP 200), `/` 404s. No Python or Node required.
+  - *Commit:* `Scaffold Astro project` (ec41a46)
 
 - [ ] **2. Define the posts content collection.**
   - *Changes:* `src/content/config.ts` — Zod schema: `date` (Date), `slug` (string), `categories` (string[]), `youtube` (string), `excerpt`/`description`, `thumbnail` (`image()`).
@@ -182,7 +181,7 @@ Confirmed: shared links only ever pointed at the site root, not deep post URLs, 
     - Delete MkDocs: `mkdocs.yaml`, `docs/javascripts/mathjax.js`, the old `docs/` MkDocs tree (content now in `src/content`).
     - Delete Python project: `pyproject.toml`, `uv.lock`, `.python-version`, `.venv/`, `.ruff_cache/`; remove `manim`/`pandas`/`mkdocs` deps.
     - Delete `scripts/` (Manim source) — retained in git history; no dead code in the tree. (Independent of MkDocs, so it can land earlier as its own commit.)
-    - Rewrite `README.md`: Node/TS dev (`pnpm install` / `pnpm dev`); remove `uv sync` / `mkdocs serve` / Manim reproducibility steps; keep the CC license section.
+    - Rewrite `README.md`: Bun dev (`bun install` / `bun run dev`); remove `uv sync` / `mkdocs serve` / Manim reproducibility steps; keep the CC license section.
     - Slim `.gitignore` to Node-oriented.
   - *Verify:* a fresh clone builds and serves with **Node only** — no Python anywhere in the path.
   - *Commit:* `Retire MkDocs and Python toolchain`
@@ -201,4 +200,4 @@ Confirmed: shared links only ever pointed at the site root, not deep post URLs, 
 - **Theme:** dark-only (per prototype).
 - **Category pages:** none — flat feed + search (per prototype). Categories stay as display metadata; add filtering later if wanted.
 - **Fonts:** self-host via Fontsource (recommended) vs Google CDN.
-- **Package manager:** pnpm (recommended).
+- **Runtime + package manager:** Bun (resolved — installed, and already used for the prototype's dc-runtime). Astro 6, static output.
