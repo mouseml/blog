@@ -1,0 +1,70 @@
+/* Brutalist, dark-only design tokens + base. Pure black, white text, hairline
+   borders, square corners, no shadows. Three faces: Golos Text (display),
+   Onest (body), JetBrains Mono (meta/code). */
+:root {
+  --bg: #000;
+  --fg: #fff;
+  --fg-body: rgba(255, 255, 255, 0.86);
+  --fg-dim: rgba(255, 255, 255, 0.6);
+  --fg-faint: rgba(255, 255, 255, 0.4);
+  --line: rgba(255, 255, 255, 0.16);
+  --line-strong: rgba(255, 255, 255, 0.22);
+  --accent: #fff;
+  --hover: rgba(255, 255, 255, 0.04);
+
+  --font-display: 'Golos Text Variable', system-ui, sans-serif;
+  --font-body: 'Onest Variable', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+
+  --header-h: 64px;
+  --wrap: 1320px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg-body);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: #fff;
+  color: #000;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--line-strong);
+}
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+/* Shared mono label used across chrome (kicker text, meta rows, tags). */
+.mono {
+  font-family: var(--font-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}

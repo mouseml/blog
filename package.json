@@ -9,6 +9,9 @@
     "check": "astro check"
   },
   "dependencies": {
+    "@fontsource-variable/golos-text": "^5.2.8",
+    "@fontsource-variable/jetbrains-mono": "^5.2.8",
+    "@fontsource-variable/onest": "^5.2.11",
     "astro": "^6.4.7",
     "astro-expressive-code": "^0.43.1",
     "katex": "^0.17.0",

@@ -1,0 +1,78 @@
+---
+import '../styles/global.css';
+import '@fontsource-variable/golos-text';
+import '@fontsource-variable/onest';
+import '@fontsource-variable/jetbrains-mono';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { url } from '../lib/base';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string; // site-relative or absolute URL for OG (e.g. a post thumbnail)
+  type?: 'website' | 'article';
+}
+
+const {
+  title,
+  description = 'Нескучные туториалы по Python и Machine Learning. Текстовые версии видео — читать быстрее, чем смотреть.',
+  image,
+  type = 'website',
+} = Astro.props;
+
+const siteName = 'мыш блог';
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = image ? new URL(image, Astro.site).href : undefined;
+const PROD = import.meta.env.PROD;
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href={url('favicon.svg')} type="image/svg+xml" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#000000" />
+
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+
+    {
+      PROD && (
+        <>
+          <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-T1L5SBV3KR" />
+          <script is:inline>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+              dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+            gtag('config', 'G-T1L5SBV3KR');
+          </script>
+        </>
+      )
+    }
+  </head>
+  <body>
+    <Header />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+
+    <style>
+      main {
+        padding-top: var(--header-h);
+      }
+    </style>
+  </body>
+</html>
