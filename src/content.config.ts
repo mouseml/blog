@@ -6,16 +6,17 @@ import { glob } from 'astro/loaders';
 // shown in the feed, <head>, and OG — the post body no longer carries an <h1> title.
 const posts = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/posts' }),
-  schema: ({ image }) =>
-    z.object({
-      title: z.string(),
-      date: z.coerce.date(),
-      categories: z.array(z.string()).default([]),
-      youtube: z.string().url(),
-      excerpt: z.string().optional(),
-      thumbnail: image().optional(),
-      draft: z.boolean().default(false),
-    }),
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    categories: z.array(z.string()).default([]),
+    youtube: z.string().url(),
+    excerpt: z.string().optional(),
+    // Path under /public (passthrough images), e.g. images/posts/trees/thumbnail.jpg.
+    thumbnail: z.string(),
+    minutes: z.number(),
+    draft: z.boolean().default(false),
+  }),
 });
 
 export const collections = { posts };
