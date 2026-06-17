@@ -1,6 +1,6 @@
 # Migration plan: MkDocs Material → raw Astro
 
-- **Status:** in progress — Phases 1–3 done (steps 1–13 ✓): pipeline, brutalist design, and full content (all 5 posts ported, images + static downloads). `astro check` clean (0/0); all routes serve under /blog. Next: Phase 4 (Pagefind search in the ⌘K palette), then Phase 5 (deploy + retire MkDocs/Python). Branch `astro-migration`.
+- **Status:** in progress — Phases 1–4 done (steps 1–14 ✓): pipeline, brutalist design, full content, and Pagefind search in the ⌘K palette (index = 5 pages, lang ru). `astro check` clean (0/0); all routes + Pagefind assets serve under /blog. Next: Phase 5 (deploy via GitHub Actions + retire MkDocs/Python incl. `scripts/`). Branch `astro-migration`.
 - **Date:** 2026-06-16 (rev. 3 — dropped URL preservation; retired Python/Manim incl. deleting `scripts/`; in-place on a branch, not a new repo; folded in design prototype)
 - **Owner:** мыш (single dev)
 - **Verdict:** proceed. Migrate now while the corpus is ~7 posts.
@@ -161,7 +161,7 @@ Confirmed: shared links only ever pointed at the site root, not deep post URLs, 
 
 ### Phase 4 — Search (⌘K palette + Pagefind)
 
-- [ ] **14. Add Pagefind behind the command palette.**
+- [x] **14. Add Pagefind behind the command palette. ✓** (9a2af4f)
   - *Changes:* run `pagefind` as a postbuild step over `dist/`; build the ⌘K palette UI from the prototype (⌘K and `/` open, ↑↓↵ nav, Esc close) driving Pagefind's JS API; confirm `lang="ru"`.
   - *Verify:* "I remember the author mentioning X" finds content across full post bodies; Russian queries in other grammatical cases still match.
   - *Commit:* `Add Pagefind full-text search in command palette`
