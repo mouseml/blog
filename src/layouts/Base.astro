@@ -5,6 +5,7 @@ import '@fontsource-variable/onest';
 import '@fontsource-variable/jetbrains-mono';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import Search from '../components/Search.astro';
 import { url } from '../lib/base';
 
 interface Props {
@@ -68,6 +69,7 @@ const PROD = import.meta.env.PROD;
       <slot />
     </main>
     <Footer />
+    <Search />
 
     <style>
       main {

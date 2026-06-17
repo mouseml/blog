@@ -23,8 +23,8 @@ for (const h of headings as Heading[]) {
 <Base title={`${title} — мыш блог`} description={excerpt} image={thumbnail} type="article">
   <div class="progress" data-progress></div>
 
-  <article class="wrap">
-    <a class="back mono" href={url()}>← Все посты</a>
+  <article class="wrap" data-pagefind-body>
+    <a class="back mono" href={url()} data-pagefind-ignore>← Все посты</a>
 
     <header class="post-head">
       <div class="meta mono">
@@ -35,7 +35,7 @@ for (const h of headings as Heading[]) {
       <h1>{title}</h1>
     </header>
 
-    <a class="cta" href={youtube} target="_blank" rel="noopener">
+    <a class="cta" href={youtube} target="_blank" rel="noopener" data-pagefind-ignore>
       <div class="cta-thumb"><img src={url(thumbnail)} alt="" /></div>
       <div class="cta-text">
         <span class="mono kicker">Оригинал · YouTube</span>
@@ -46,7 +46,7 @@ for (const h of headings as Heading[]) {
 
     {
       toc.length > 0 && (
-        <details class="toc-mobile">
+        <details class="toc-mobile" data-pagefind-ignore>
           <summary class="mono">Содержание</summary>
           <nav>
             {toc.map((t) => (
@@ -68,7 +68,7 @@ for (const h of headings as Heading[]) {
       <div class="col">
         <div class="prose"><slot /></div>
 
-        <nav class="prevnext">
+        <nav class="prevnext" data-pagefind-ignore>
           {
             newer && (
               <a class="pn newer" href={url(`posts/${newer.id}/`)}>
@@ -90,7 +90,7 @@ for (const h of headings as Heading[]) {
 
       {
         toc.length > 0 && (
-          <aside class="toc">
+          <aside class="toc" data-pagefind-ignore>
             <div class="mono toc-title">Содержание</div>
             <nav>
               {toc.map((t) => (
