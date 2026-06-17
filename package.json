@@ -9,7 +9,8 @@
     "check": "astro check"
   },
   "dependencies": {
-    "astro": "^6.4.7"
+    "astro": "^6.4.7",
+    "astro-expressive-code": "^0.43.1"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
