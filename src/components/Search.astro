@@ -42,7 +42,7 @@
   async function ensurePf() {
     if (pf) return pf;
     try {
-      const path = `${BASE}pagefind/pagefind.js`;
+      const path = `${BASE.replace(/\/$/, '')}/pagefind/pagefind.js`;
       pf = await import(/* @vite-ignore */ path);
       await pf.init();
     } catch {
