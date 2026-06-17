@@ -322,6 +322,13 @@ poetry.toml
 # ruff
 .ruff_cache/
 
+# --- Astro source tree ---
+# The Python/PyCharm template above ignores generic dir names (lib/, build/, out/,
+# var/, target/, env/, …) that collide with a JS src tree. Re-include our source so
+# files like src/lib/* are tracked. (Full .gitignore cleanup happens at cutover.)
+!/src/**
+!/tools/**
+
 # LSP config files
 pyrightconfig.json
 

@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig, passthroughImageService } from 'astro/config';
 import expressiveCode from 'astro-expressive-code';
+import { pluginOutputBlocks } from './src/lib/ec-output.mjs';
 
 // GitHub project page: https://mouseml.github.io/blog
 // `base` must lead every internal link/asset path.
@@ -13,6 +14,7 @@ export default defineConfig({
     // Code blocks: titles, line highlighting, copy button. Dark-only, brutalist —
     // square corners, hairline borders, no shadow, mono UI. Refined in the design phase.
     expressiveCode({
+      plugins: [pluginOutputBlocks()],
       themes: ['github-dark'],
       styleOverrides: {
         borderRadius: '0',
