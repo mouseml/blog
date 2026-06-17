@@ -204,6 +204,24 @@
     font-family: var(--font-mono);
     font-size: 16px;
   }
+  /* Recolor the native search clear button (default is off-brand blue) to a
+     white × via an alpha mask; dim → white on hover to match the chrome. */
+  .field input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+    background-color: var(--fg-dim);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M1 1l10 10M11 1L1 11' stroke='%23000' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E")
+      center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M1 1l10 10M11 1L1 11' stroke='%23000' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E")
+      center / contain no-repeat;
+    transition: background-color 0.15s;
+  }
+  .field input::-webkit-search-cancel-button:hover {
+    background-color: #fff;
+  }
   .count {
     font-size: 11px;
     letter-spacing: 0.1em;
@@ -242,7 +260,7 @@
     color: #fff;
     font-weight: 600;
   }
-  .empty {
+  .results :global(.empty) {
     padding: 34px 18px;
     text-align: center;
     font-size: 13px;
