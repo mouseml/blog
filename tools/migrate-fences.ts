@@ -22,7 +22,7 @@ if (!file) {
 let inFence = false;
 const out = readFileSync(file, 'utf8')
   .split('\n')
-  .map((line) => {
+  .map((line: string) => {
     if (!line.startsWith('```')) return line;
     if (inFence) {
       inFence = false; // closing fence — leave as-is
@@ -31,7 +31,7 @@ const out = readFileSync(file, 'utf8')
     inFence = true; // opening fence — translate
     return line
       .replace(/^```sqlite\b/, '```sql')
-      .replace(/\bhl_lines="([^"]*)"/g, (_m, r) => `{${r.trim().replace(/\s+/g, ',')}}`)
+      .replace(/\bhl_lines="([^"]*)"/g, (_m: string, r: string) => `{${r.trim().replace(/\s+/g, ',')}}`)
       .replace(/\{\.no-copy\}/g, 'output');
   })
   .join('\n');
