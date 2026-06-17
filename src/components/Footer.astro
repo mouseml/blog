@@ -1,14 +1,9 @@
 ---
-import Logo from './Logo.astro';
 import { url } from '../lib/base';
 ---
 
 <footer>
   <div class="inner">
-    <a class="brand mono" href={url()}>
-      <Logo />
-      <span>© мыш</span>
-    </a>
     <nav class="mono">
       <a href="https://www.youtube.com/channel/UCscWjyvPudzdIaGCCtEL3nw" target="_blank" rel="noopener">YouTube</a>
       <a href="https://t.me/ml_mouse" target="_blank" rel="noopener">Telegram</a>
@@ -27,21 +22,9 @@ import { url } from '../lib/base';
     padding: 30px 22px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     flex-wrap: wrap;
     gap: 16px;
-  }
-  .brand {
-    display: flex;
-    align-items: center;
-    gap: 11px;
-    font-size: 15px;
-    color: var(--fg-faint);
-    text-decoration: none;
-  }
-  .brand span {
-    font-size: 11px;
-    letter-spacing: 0.16em;
   }
   nav {
     display: flex;
