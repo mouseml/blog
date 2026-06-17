@@ -1,0 +1,162 @@
+---
+import Base from '../layouts/Base.astro';
+import { url } from '../lib/base';
+
+const rows = [
+  {
+    k: 'Можно',
+    on: true,
+    v: 'Копировать и распространять материалы в любом формате — тексты, диаграммы и код',
+  },
+  {
+    k: 'Нельзя',
+    on: false,
+    v: 'Использовать в коммерческих целях и распространять изменённые версии',
+  },
+  {
+    k: 'Условие',
+    on: false,
+    v: 'Оставить ссылку на этот блог и YouTube-канал, указать авторство',
+  },
+];
+---
+
+<Base title="Лицензия — мыш блог" description="Все материалы блога — под лицензией CC BY-NC-ND 4.0.">
+  <div class="wrap">
+    <a class="back mono" href={url()}>← Все посты</a>
+
+    <header class="head">
+      <div class="mono kicker">CC BY-NC-ND 4.0</div>
+      <h1>Лицензия</h1>
+    </header>
+
+    <p>
+      Я использую лицензию CC BY-NC-ND 4.0 для всех материалов в блоге: текстов статей,
+      диаграмм и исходного кода. Это значит, что вы можете копировать и размещать их где
+      угодно, если оставите ссылку на этот блог и YouTube-канал.
+    </p>
+    <p>
+      Я запрещаю использовать любые материалы из блога в коммерческих целях. Их нельзя
+      продавать, монетизировать и использовать для привлечения клиентов.
+    </p>
+
+    <div class="table">
+      {
+        rows.map((r) => (
+          <div class="row">
+            <div class:list={['key', 'mono', { on: r.on }]}>{r.k}</div>
+            <div class="val">{r.v}</div>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="foot mono">
+      <span>Copyright © мыш</span>
+      <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank" rel="noopener">
+        Полный текст лицензии ↗
+      </a>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .wrap {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 0 22px 120px;
+  }
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 30px;
+    font-size: 12px;
+    color: var(--fg-dim);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  .back:hover {
+    color: #fff;
+  }
+  .head {
+    padding: 26px 0 30px;
+    border-bottom: 1px solid var(--line);
+  }
+  .kicker {
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    color: var(--fg-dim);
+  }
+  .head h1 {
+    margin: 18px 0 0;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(34px, 5vw, 52px);
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    color: #fff;
+  }
+  p {
+    margin: 30px 0 18px;
+    font-size: 18px;
+    line-height: 1.72;
+    color: var(--fg-body);
+    text-wrap: pretty;
+  }
+  p + p {
+    margin-top: 0;
+    margin-bottom: 30px;
+  }
+
+  .table {
+    border: 1px solid var(--line);
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 128px 1fr;
+  }
+  .row:not(:last-child) {
+    border-bottom: 1px solid var(--line);
+  }
+  .key {
+    padding: 16px;
+    border-right: 1px solid var(--line);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--fg-dim);
+  }
+  .key.on {
+    color: #fff;
+  }
+  .val {
+    padding: 16px 18px;
+    font-size: 15.5px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.78);
+  }
+
+  .foot {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    font-size: 11.5px;
+    letter-spacing: 0.1em;
+    color: var(--fg-faint);
+  }
+  .foot a {
+    color: var(--fg-dim);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line-strong);
+    padding-bottom: 1px;
+    transition: color 0.15s;
+  }
+  .foot a:hover {
+    color: #fff;
+  }
+</style>
