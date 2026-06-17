@@ -1,6 +1,6 @@
 # Migration plan: MkDocs Material → raw Astro
 
-- **Status:** in progress — step 1 ✓ (Bun + Astro 6, serves at /blog); next: step 2. Branch `astro-migration` from `main`.
+- **Status:** in progress — Phase 1 done (steps 1–6 ✓): scaffold, schema, Expressive Code, fence-translation, KaTeX, heading IDs/TOC. All build-verified; `astro check` clean (0/0). Next: Phase 2 (design, step 7). Branch `astro-migration`.
 - **Date:** 2026-06-16 (rev. 3 — dropped URL preservation; retired Python/Manim incl. deleting `scripts/`; in-place on a branch, not a new repo; folded in design prototype)
 - **Owner:** мыш (single dev)
 - **Verdict:** proceed. Migrate now while the corpus is ~7 posts.
@@ -92,30 +92,30 @@ Confirmed: shared links only ever pointed at the site root, not deep post URLs, 
   - *Verify:* ✓ `bun run build` succeeds; preview serves the placeholder at `/blog` (HTTP 200), `/` 404s. No Python or Node required.
   - *Commit:* `Scaffold Astro project` (ec41a46)
 
-- [ ] **2. Define the posts content collection.**
+- [x] **2. Define the posts content collection. ✓** (4535a42)
   - *Changes:* `src/content/config.ts` — Zod schema: `date` (Date), `slug` (string), `categories` (string[]), `youtube` (string), `excerpt`/`description`, `thumbnail` (`image()`).
   - *Verify:* `astro check` flags a deliberately malformed frontmatter sample.
   - *Commit:* `Add posts content collection schema`
 
 ### Phase 1 — Markdown/MDX pipeline parity
 
-- [ ] **3. Wire Expressive Code.**
+- [x] **3. Wire Expressive Code. ✓** (0e2c9e3)
   - *Changes:* `astro-expressive-code`; dark brutalist theme; titles, line markers, copy button; a distinct OUTPUT/terminal frame for `.no-copy` output blocks.
   - *Verify:* scratch post with `title=`, `{15-20}`, copy button, and an OUTPUT block render correctly.
   - *Commit:* `Wire Expressive Code for code blocks`
 
-- [ ] **4. Add the code-fence translation pass.**
+- [x] **4. Add the code-fence translation pass. ✓** (ded98ab)
   - *Changes:* one-off Node script converting `hl_lines="…"`→`{…}`, `sqlite`→`sql`, `{.no-copy}`→OUTPUT frame.
   - *Verify:* diff torch.md + sql_ds.md output; copy absent on OUTPUT blocks.
   - *Commit:* `Add MkDocs→Astro code-fence translation script`
 
-- [ ] **5. Wire KaTeX; drop runtime MathJax. (math spike)**
+- [x] **5. Wire KaTeX; drop runtime MathJax. ✓ (math spike — passed)** (80fcc27)
   - *Changes:* `remark-math` + `rehype-katex` + KaTeX CSS in base layout.
   - *Breaks:* math rendering if delimiters/macros differ.
   - *Verify:* nn.md (29 spans) + torch.md render correctly and look right on black. **This is the risk-1 spike — do it before committing to the design details.**
   - *Commit:* `Render math with KaTeX at build time`
 
-- [ ] **6. Heading slugs + explicit IDs + TOC source.**
+- [x] **6. Heading slugs + explicit IDs + TOC source. ✓** (7995c90)
   - *Changes:* `rehype-slug` (+ honor `{#id}`); expose `getHeadings()` for the TOC.
   - *Verify:* `#task`/`#load`/`#join`/`#cloud` resolve; headings list is correct.
   - *Commit:* `Add heading slugs and TOC extraction`
