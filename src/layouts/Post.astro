@@ -425,6 +425,20 @@ for (const h of headings as Heading[]) {
     color: var(--fg-body);
     text-wrap: pretty;
   }
+  .prose :global(ul),
+  .prose :global(ol) {
+    margin: 0 0 22px;
+    padding-left: 1.5em;
+    font-size: 18px;
+    line-height: 1.72;
+    color: var(--fg-body);
+  }
+  .prose :global(li) {
+    margin: 0 0 10px;
+  }
+  .prose :global(li::marker) {
+    color: var(--fg-faint);
+  }
   .prose :global(h2) {
     margin: 52px 0 22px;
     padding-bottom: 14px;
