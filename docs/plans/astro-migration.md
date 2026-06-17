@@ -1,6 +1,6 @@
 # Migration plan: MkDocs Material → raw Astro
 
-- **Status:** in progress — Phases 1–2 done (steps 1–10 ✓): pipeline + brutalist design (chrome, feed, article, license). `astro check` clean (0/0); all routes serve under /blog. Route (step 11) landed with the article layout. Next: Phase 3 finishes the content port (4 remaining post bodies) + static download assets, then search/deploy. Branch `astro-migration`.
+- **Status:** in progress — Phases 1–3 done (steps 1–13 ✓): pipeline, brutalist design, and full content (all 5 posts ported, images + static downloads). `astro check` clean (0/0); all routes serve under /blog. Next: Phase 4 (Pagefind search in the ⌘K palette), then Phase 5 (deploy + retire MkDocs/Python). Branch `astro-migration`.
 - **Date:** 2026-06-16 (rev. 3 — dropped URL preservation; retired Python/Manim incl. deleting `scripts/`; in-place on a branch, not a new repo; folded in design prototype)
 - **Owner:** мыш (single dev)
 - **Verdict:** proceed. Migrate now while the corpus is ~7 posts.
@@ -149,12 +149,12 @@ Confirmed: shared links only ever pointed at the site root, not deep post URLs, 
   - *Verify:* every post resolves at its slug URL.
   - *Commit:* `Add slug-based post route`
 
-- [ ] **12. Port all posts (full bodies).**
+- [x] **12. Port all posts (full bodies). ✓** (894200f — via `tools/port-post.ts`, which supersedes the step-4 `migrate-fences.ts`)
   - *Changes:* copy `docs/posts/*.md` → `src/content/posts/*.{md,mdx}`; run step-4 script; convert the 2 torch.md tab blocks to `<Tabs>`; map `<!-- more -->`→`excerpt`. Use the **real full** posts, not the prototype's abbreviated blocks. (Also port the `history.md` draft when ready; fix its broken image path.)
   - *Verify:* each post diffed visually against live MkDocs.
   - *Commit:* `Port all posts to Astro content collection`
 
-- [ ] **13. Port images + download assets.**
+- [x] **13. Port images + download assets. ✓** (images: 63d1594; static downloads: eab3953)
   - *Changes:* move rendered PNGs/thumbnails into Astro (`src/` for optimization where it helps); put `.pt`/`.csv`/`model.py` download assets in `public/`; update in-post links to their new locations.
   - *Verify:* no broken images; every download link resolves.
   - *Commit:* `Port post images and download assets`
