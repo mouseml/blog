@@ -463,15 +463,42 @@ for (const h of headings as Heading[]) {
     border: 1px solid var(--line);
     background: rgba(255, 255, 255, 0.04);
   }
-  .prose :global(figure) {
+  .prose :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 0 24px;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .prose :global(th),
+  .prose :global(td) {
+    border: 1px solid var(--line);
+    padding: 9px 12px;
+    text-align: left;
+    vertical-align: top;
+  }
+  .prose :global(th) {
+    font-weight: 700;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.03);
+  }
+  .prose :global(td) {
+    color: var(--fg-body);
+  }
+  .prose :global(td code) {
+    white-space: nowrap;
+  }
+  /* :not([class]) targets our rehype-figures images only — Expressive Code's
+     own <figure class="frame"> / <figcaption class="header"> are left to EC. */
+  .prose :global(figure:not([class])) {
     margin: 0 0 26px;
     border: 1px solid var(--line);
   }
-  .prose :global(figure img) {
+  .prose :global(figure:not([class]) img) {
     width: 100%;
     background: #000;
   }
-  .prose :global(figcaption) {
+  .prose :global(figure:not([class]) > figcaption) {
     padding: 11px 14px;
     border-top: 1px solid var(--line);
     font-family: var(--font-mono);
