@@ -1,6 +1,6 @@
 # Migration plan: MkDocs Material → raw Astro
 
-- **Status:** in progress — Phase 1 done (steps 1–6 ✓): scaffold, schema, Expressive Code, fence-translation, KaTeX, heading IDs/TOC. All build-verified; `astro check` clean (0/0). Next: Phase 2 (design, step 7). Branch `astro-migration`.
+- **Status:** in progress — Phases 1–2 done (steps 1–10 ✓): pipeline + brutalist design (chrome, feed, article, license). `astro check` clean (0/0); all routes serve under /blog. Route (step 11) landed with the article layout. Next: Phase 3 finishes the content port (4 remaining post bodies) + static download assets, then search/deploy. Branch `astro-migration`.
 - **Date:** 2026-06-16 (rev. 3 — dropped URL preservation; retired Python/Manim incl. deleting `scripts/`; in-place on a branch, not a new repo; folded in design prototype)
 - **Owner:** мыш (single dev)
 - **Verdict:** proceed. Migrate now while the corpus is ~7 posts.
@@ -122,29 +122,29 @@ Confirmed: shared links only ever pointed at the site root, not deep post URLs, 
 
 ### Phase 2 — Brutalist design (prototype is the reference)
 
-- [ ] **7. Base layout + global styles + `<head>`.**
+- [x] **7. Base layout + global styles + `<head>`. ✓** (9097975)
   - *Changes:* `<html lang="ru">`; dark brutalist global CSS; self-hosted fonts (Golos Text / Onest / JetBrains Mono via Fontsource); GA `G-T1L5SBV3KR`; OG/meta; favicon + `icon.svg` brand mark.
   - *Verify:* Lighthouse; GA debug hit fires; Cyrillic renders in all three fonts.
   - *Commit:* `Add base layout and brutalist global styles`
 
-- [ ] **8. Feed (channel-grid landing).**
+- [x] **8. Feed (channel-grid landing). ✓** (63d1594)
   - *Changes:* flat reverse-chron card grid (`auto-fill,minmax(340px,1fr)`), 16:9 thumbnails, **CSS** grayscale→color hover, mono meta, "ТЕКСТ ВИДЕО" tag, post count + last-updated. Cards are real `<a href>`.
   - *Verify:* reads like a YouTube channel page; middle-click opens in new tab.
   - *Commit:* `Add channel-grid feed`
 
-- [ ] **9. Article layout.**
+- [x] **9. Article layout. ✓** (c6f8808)
   - *Changes:* title header + meta; YouTube CTA card; two-column (article + sticky 232px TOC); scroll-progress bar + scrollspy (vanilla `<script>`/IntersectionObserver); prose/code/math/figure styling; prev/next nav; mobile collapsible TOC.
   - *Verify:* one ported post reads end-to-end. **← REVIEW CHECKPOINT: confirm the aesthetic before bulk content port** (prototype already sets the direction).
   - *Commit:* `Add article layout`
 
-- [ ] **10. License page + footer.**
+- [x] **10. License page + footer. ✓** (aa3b97e; footer shipped with step 7)
   - *Changes:* CC BY-NC-ND license page (can/cannot/condition table from prototype); footer with YouTube / Telegram / License links.
   - *Verify:* links resolve; license text intact.
   - *Commit:* `Add license page and footer`
 
 ### Phase 3 — Content port
 
-- [ ] **11. Slug-based post route.**
+- [x] **11. Slug-based post route. ✓** (landed in step 9, c6f8808 — `/posts/<id>/`)
   - *Changes:* `src/pages/posts/[...slug].astro` → clean `/posts/<slug>/` URLs.
   - *Verify:* every post resolves at its slug URL.
   - *Commit:* `Add slug-based post route`
