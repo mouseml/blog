@@ -5,6 +5,7 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import { pluginOutputBlocks } from './src/lib/ec-output.mjs';
 import { remarkHeadingIds } from './src/lib/remark-heading-ids.mjs';
+import { rehypeFigures } from './src/lib/rehype-figures.mjs';
 
 // GitHub project page: https://mouseml.github.io/blog
 // `base` must lead every internal link/asset path.
@@ -17,7 +18,7 @@ export default defineConfig({
   // KaTeX CSS is loaded by the layout; KaTeX inherits currentColor (white on black).
   markdown: {
     remarkPlugins: [remarkHeadingIds, remarkMath],
-    rehypePlugins: [rehypeKatex],
+    rehypePlugins: [rehypeKatex, rehypeFigures],
   },
   integrations: [
     // Code blocks: titles, line highlighting, copy button. Dark-only, brutalist —
