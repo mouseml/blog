@@ -1,7 +1,6 @@
 ---
 title: Нейронные сети — теория и практика в PyTorch
 date: 2025-04-18
-categories: [Теория]
 youtube: https://youtu.be/bUhyrgvkVFc
 excerpt: Принцип работы, виды слоёв, функции потерь и градиентный спуск — собираем и обучаем первую нейросеть.
 thumbnail: images/posts/nn/thumbnail.jpg

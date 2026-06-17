@@ -1,7 +1,6 @@
 ---
 title: Доводим проекты до конца — ML-сервисы на FastAPI
 date: 2025-09-12
-categories: [Портфолио]
 youtube: https://youtu.be/XMG4RTdhzoI
 excerpt: Превращаем обученную модель в полноценный сервис с API на FastAPI — от постановки задачи до формы заявки.
 thumbnail: images/posts/fastapi/thumbnail.jpg

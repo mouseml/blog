@@ -1,7 +1,6 @@
 ---
 title: Самая простая ML модель — решающее дерево
 date: 2025-11-29
-categories: [Теория]
 youtube: https://youtu.be/-_l3smVnga4
 excerpt: От поиска правил и критерия Джини до переобучения и ловушки жадных алгоритмов — как устроены решающие деревья.
 thumbnail: images/posts/trees/thumbnail.jpg

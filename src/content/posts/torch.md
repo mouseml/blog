@@ -1,7 +1,6 @@
 ---
 title: PyTorch с нуля — тензоры и нейросети
 date: 2025-07-10
-categories: [Библиотеки]
 youtube: https://youtu.be/8l_aDqLRrVg
 excerpt: "Опускаемся на уровень ниже готовых моделей: тензоры, вычисления на видеокартах и авто-дифференцирование."
 thumbnail: images/posts/torch/thumbnail.jpg

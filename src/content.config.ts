@@ -9,7 +9,6 @@ const posts = defineCollection({
   schema: z.object({
     title: z.string(),
     date: z.coerce.date(),
-    categories: z.array(z.string()).default([]),
     youtube: z.string().url(),
     excerpt: z.string().optional(),
     // Path under /public (passthrough images), e.g. images/posts/trees/thumbnail.jpg.

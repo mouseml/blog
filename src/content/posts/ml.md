@@ -1,7 +1,6 @@
 ---
 title: Машинное обучение — всё, что нужно знать
 date: 2025-03-27
-categories: [Теория]
 youtube: https://youtu.be/s0de5Q4taFE
 excerpt: "Учимся смотреть на задачи глазами Data Scientist-а: основные модели, этапы проектов и типичные проблемы."
 thumbnail: images/posts/ml/thumbnail.jpg
