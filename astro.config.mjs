@@ -1,6 +1,8 @@
 // @ts-check
 import { defineConfig, passthroughImageService } from 'astro/config';
 import expressiveCode from 'astro-expressive-code';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 import { pluginOutputBlocks } from './src/lib/ec-output.mjs';
 
 // GitHub project page: https://mouseml.github.io/blog
@@ -10,6 +12,12 @@ export default defineConfig({
   base: '/blog',
   // Pre-rendered PNGs (ex-Manim) ship as-is; no sharp under Bun.
   image: { service: passthroughImageService() },
+  // Math: $...$ / $$...$$ rendered to KaTeX at build time (no runtime MathJax).
+  // KaTeX CSS is loaded by the layout; KaTeX inherits currentColor (white on black).
+  markdown: {
+    remarkPlugins: [remarkMath],
+    rehypePlugins: [rehypeKatex],
+  },
   integrations: [
     // Code blocks: titles, line highlighting, copy button. Dark-only, brutalist —
     // square corners, hairline borders, no shadow, mono UI. Refined in the design phase.
