@@ -4,6 +4,7 @@ import expressiveCode from 'astro-expressive-code';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import { pluginOutputBlocks } from './src/lib/ec-output.mjs';
+import { remarkHeadingIds } from './src/lib/remark-heading-ids.mjs';
 
 // GitHub project page: https://mouseml.github.io/blog
 // `base` must lead every internal link/asset path.
@@ -15,7 +16,7 @@ export default defineConfig({
   // Math: $...$ / $$...$$ rendered to KaTeX at build time (no runtime MathJax).
   // KaTeX CSS is loaded by the layout; KaTeX inherits currentColor (white on black).
   markdown: {
-    remarkPlugins: [remarkMath],
+    remarkPlugins: [remarkHeadingIds, remarkMath],
     rehypePlugins: [rehypeKatex],
   },
   integrations: [

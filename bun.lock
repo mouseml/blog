@@ -10,6 +10,7 @@
         "katex": "^0.17.0",
         "rehype-katex": "^7.0.1",
         "remark-math": "^6.0.0",
+        "unist-util-visit": "^5.1.0",
       },
       "devDependencies": {
         "@astrojs/check": "^0.9.9",
