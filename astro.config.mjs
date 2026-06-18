@@ -1,12 +1,18 @@
 // @ts-check
 import { defineConfig, passthroughImageService } from 'astro/config';
-import expressiveCode from 'astro-expressive-code';
+import expressiveCode, { pluginFramesTexts } from 'astro-expressive-code';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import { pluginOutputBlocks } from './src/lib/ec-output.mjs';
 import { remarkHeadingIds } from './src/lib/remark-heading-ids.mjs';
 import { rehypeFigures } from './src/lib/rehype-figures.mjs';
 import { rehypeLinks } from './src/lib/rehype-links.mjs';
+
+// Localize the code-block copy button (Expressive Code defaults to en-US).
+pluginFramesTexts.overrideTexts('en', {
+  copyButtonTooltip: 'Скопировать',
+  copyButtonCopied: 'Скопировано',
+});
 
 // GitHub project page: https://mouseml.github.io/blog
 // `base` must lead every internal link/asset path.
