@@ -9,7 +9,9 @@ const posts = (await getCollection('posts'))
   .filter((p) => !p.data.draft)
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
-const lastUpdated = posts.length ? formatDate(posts[0].data.date) : '';
+// Build time == deploy time for this static-on-push setup; reflects the deploy,
+// not the newest post's date (so active revisions still bump the stamp).
+const lastUpdated = formatDate(new Date());
 ---
 
 <Base title="мыш блог">
