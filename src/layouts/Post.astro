@@ -72,7 +72,7 @@ for (const h of headings as Heading[]) {
           {
             newer && (
               <a class="pn newer" href={url(`posts/${newer.id}/`)}>
-                <span class="mono dir">↑ Новее</span>
+                <span class="mono dir">↑ Следующий пост</span>
                 <span class="pn-title">{newer.data.title}</span>
               </a>
             )
@@ -80,7 +80,7 @@ for (const h of headings as Heading[]) {
           {
             older && (
               <a class="pn older" href={url(`posts/${older.id}/`)}>
-                <span class="mono dir">Старше ↓</span>
+                <span class="mono dir">Предыдущий пост ↓</span>
                 <span class="pn-title">{older.data.title}</span>
               </a>
             )
