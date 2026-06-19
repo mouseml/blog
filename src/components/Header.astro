@@ -1,0 +1,78 @@
+---
+import Logo from './Logo.astro';
+import { url } from '../lib/base';
+---
+
+<header>
+  <a class="brand" href={url()} aria-label="мыш блог — на ленту">
+    <Logo />
+    <span class="mono kicker">блог</span>
+  </a>
+  <button class="search mono" type="button" data-search-trigger aria-label="Поиск по постам">
+    <span>Поиск</span>
+    <span class="keys" aria-hidden="true"><kbd>⌘</kbd><kbd>K</kbd></span>
+  </button>
+</header>
+
+<style>
+  header {
+    position: fixed;
+    inset: 0 0 auto 0;
+    height: var(--header-h);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 22px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(0, 0, 0, 0.78);
+    backdrop-filter: blur(10px);
+    z-index: 60;
+  }
+  /* font-size drives the logo height (its svg is 1em); the kicker resets its own */
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    font-size: 21px;
+    color: var(--fg);
+    text-decoration: none;
+  }
+  .kicker {
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    color: var(--fg-dim);
+  }
+  .search {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 38px;
+    padding: 0 12px 0 14px;
+    border: 1px solid var(--line-strong);
+    background: none;
+    color: var(--fg-dim);
+    font-size: 12px;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .search:hover {
+    border-color: #fff;
+    color: #fff;
+  }
+  .keys {
+    display: flex;
+    gap: 3px;
+  }
+  .keys kbd {
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    padding: 2px 5px;
+    font-size: 11px;
+    line-height: 1;
+    font-family: var(--font-mono);
+  }
+  @media (max-width: 640px) {
+    .keys {
+      display: none;
+    }
+  }
+</style>

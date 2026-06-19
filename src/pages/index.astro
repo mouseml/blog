@@ -1,0 +1,211 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Logo from '../components/Logo.astro';
+import { url } from '../lib/base';
+import { formatDate } from '../lib/date';
+
+const posts = (await getCollection('posts'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+// Build time == deploy time for this static-on-push setup; reflects the deploy,
+// not the newest post's date (so active revisions still bump the stamp).
+const lastUpdated = formatDate(new Date());
+---
+
+<Base title="мыш блог">
+  <section class="hero">
+    <div class="wordmark">
+      <span class="big"><Logo /></span>
+      <span class="mono label">блог</span>
+    </div>
+    <p class="tagline">
+      Нескучные туториалы по Python и машинному обучению. Текстовые версии видео с кодом и картинками.
+    </p>
+    <div class="stats mono">
+      <span>{posts.length} постов</span>
+      <span>обновлено {lastUpdated}</span>
+    </div>
+  </section>
+
+  <section class="feed">
+    <div class="feed-head">
+      <h2 class="display">Лента</h2>
+      <span class="mono note">/ по дате публикации</span>
+    </div>
+
+    <div class="grid">
+      {
+        posts.map((p) => (
+          <a class="card" href={url(`posts/${p.id}/`)}>
+            <div class="thumb">
+              <img src={url(p.data.thumbnail)} alt={p.data.title} loading="lazy" />
+            </div>
+            <div class="card-body">
+              <div class="meta mono">
+                <span>{formatDate(p.data.date)}</span>
+              </div>
+              <h3 class="display">{p.data.title}</h3>
+              <div class="grow" />
+              <div class="foot mono">
+                <span>{p.data.minutes} мин чтения</span>
+              </div>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</Base>
+
+<style>
+  .display {
+    font-family: var(--font-display);
+  }
+
+  /* hero */
+  .hero {
+    max-width: var(--wrap);
+    margin: 0 auto;
+    padding: 60px 22px 30px;
+  }
+  .wordmark {
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .big {
+    font-size: clamp(64px, 10vw, 92px);
+    color: #fff;
+    line-height: 1;
+  }
+  .label {
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: 0.32em;
+    color: rgba(255, 255, 255, 0.5);
+    padding-bottom: 13px;
+  }
+  .tagline {
+    margin: 26px 0 0;
+    max-width: 640px;
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--fg-dim);
+  }
+  .stats {
+    margin-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    width: fit-content;
+    border: 1px solid var(--line);
+    font-size: 12px;
+    color: var(--fg-dim);
+  }
+  .stats span {
+    padding: 11px 18px;
+  }
+  .stats span:first-child {
+    border-right: 1px solid var(--line);
+  }
+
+  /* feed */
+  .feed {
+    max-width: var(--wrap);
+    margin: 0 auto;
+    padding: 0 22px 90px;
+  }
+  .feed-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding: 18px 0 20px;
+    border-bottom: 1px solid var(--line);
+  }
+  .feed-head h2 {
+    margin: 0;
+    font-weight: 900;
+    font-size: 15px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #fff;
+  }
+  .note {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: var(--fg-faint);
+    text-transform: none;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+  }
+  .card {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.2s;
+  }
+  .card:hover {
+    background: var(--hover);
+  }
+  .thumb {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+    background: #0a0a0a;
+  }
+  .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(1) contrast(1.05);
+    transition: filter 0.45s ease, transform 0.6s ease;
+  }
+  .card:hover .thumb img {
+    filter: none;
+    transform: scale(1.015);
+  }
+  .card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    padding: 17px 18px 20px;
+  }
+  .meta {
+    display: flex;
+    gap: 10px;
+    font-size: 11.5px;
+    letter-spacing: 0.1em;
+    color: var(--fg-dim);
+  }
+  .card h3 {
+    margin: 0;
+    font-weight: 800;
+    font-size: 21px;
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    color: #fff;
+    text-wrap: balance;
+  }
+  .grow {
+    flex: 1;
+  }
+  .foot {
+    display: flex;
+    align-items: center;
+    font-size: 11px;
+    letter-spacing: 0.09em;
+    color: var(--fg-faint);
+  }
+</style>

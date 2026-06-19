@@ -1,0 +1,279 @@
+---
+// ⌘K / "/" command palette, backed by Pagefind (built into dist/pagefind/ as a
+// postbuild step). Pagefind records site-root paths; we re-apply the /blog base
+// when building result links. Search only works in the built site (preview/prod).
+---
+
+<div class="palette" data-search hidden>
+  <button class="overlay" data-search-close type="button" aria-label="Закрыть поиск"></button>
+  <div class="box" role="dialog" aria-modal="true" aria-label="Поиск по постам">
+    <div class="field">
+      <span class="slash" aria-hidden="true">/</span>
+      <input
+        type="search"
+        data-search-input
+        placeholder="Поиск по всем постам…"
+        autocomplete="off"
+        spellcheck="false"
+        aria-label="Поисковый запрос"
+      />
+      <span class="count mono" data-search-count></span>
+    </div>
+    <div class="results" data-search-results></div>
+    <div class="hints mono">
+      <span>↑↓ выбор</span><span>↵ открыть</span><span>esc закрыть</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  const BASE = import.meta.env.BASE_URL;
+  const palette = document.querySelector<HTMLElement>('[data-search]');
+  const input = document.querySelector<HTMLInputElement>('[data-search-input]');
+  const resultsEl = document.querySelector<HTMLElement>('[data-search-results]');
+  const countEl = document.querySelector<HTMLElement>('[data-search-count]');
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let pf: any = null;
+  let results: any[] = [];
+  let sel = 0;
+  let debounce: number | undefined;
+
+  async function ensurePf() {
+    if (pf) return pf;
+    try {
+      const path = `${BASE.replace(/\/$/, '')}/pagefind/pagefind.js`;
+      pf = await import(/* @vite-ignore */ path);
+      await pf.init();
+    } catch {
+      pf = null; // not built yet (e.g. dev server)
+    }
+    return pf;
+  }
+
+  function resolveUrl(u: string) {
+    const b = BASE.replace(/\/$/, '');
+    if (u.startsWith(b + '/')) return u;
+    return b + (u.startsWith('/') ? u : '/' + u);
+  }
+
+  const isOpen = () => !!palette && !palette.hidden;
+
+  function open() {
+    if (!palette) return;
+    palette.hidden = false;
+    document.body.style.overflow = 'hidden';
+    ensurePf();
+    requestAnimationFrame(() => input?.focus());
+  }
+  function close() {
+    if (!palette) return;
+    palette.hidden = true;
+    document.body.style.overflow = '';
+    if (input) input.value = '';
+    results = [];
+    sel = 0;
+    render();
+  }
+
+  function render() {
+    if (!resultsEl || !countEl) return;
+    const q = input?.value.trim() ?? '';
+    countEl.textContent = q && results.length ? String(results.length).padStart(2, '0') : '';
+    if (!q) {
+      resultsEl.innerHTML = '';
+      return;
+    }
+    if (!results.length) {
+      resultsEl.innerHTML = '<div class="empty mono">ничего не найдено</div>';
+      return;
+    }
+    resultsEl.innerHTML = results
+      .map(
+        (r, i) =>
+          `<a class="result${i === sel ? ' active' : ''}" href="${resolveUrl(r.url)}">` +
+          `<div class="r-title">${r.meta?.title ?? ''}</div>` +
+          `<div class="r-excerpt">${r.excerpt ?? ''}</div></a>`,
+      )
+      .join('');
+  }
+
+  async function runSearch(q: string) {
+    const p = await ensurePf();
+    if (!p || !q.trim()) {
+      results = [];
+      render();
+      return;
+    }
+    const res = await p.search(q);
+    results = await Promise.all(res.results.slice(0, 8).map((x: any) => x.data()));
+    sel = 0;
+    render();
+  }
+
+  function move(d: number) {
+    if (!results.length) return;
+    sel = (sel + d + results.length) % results.length;
+    render();
+    resultsEl?.querySelector('.result.active')?.scrollIntoView({ block: 'nearest' });
+  }
+  function go() {
+    const r = results[sel];
+    if (r) location.href = resolveUrl(r.url);
+  }
+
+  input?.addEventListener('input', () => {
+    clearTimeout(debounce);
+    debounce = window.setTimeout(() => runSearch(input.value), 140);
+  });
+
+  addEventListener('keydown', (e) => {
+    const meta = e.metaKey || e.ctrlKey;
+    if (meta && (e.key === 'k' || e.key === 'K')) {
+      e.preventDefault();
+      isOpen() ? close() : open();
+      return;
+    }
+    if (!isOpen()) {
+      const tag = (e.target as HTMLElement)?.tagName;
+      if (e.key === '/' && tag !== 'INPUT' && tag !== 'TEXTAREA') {
+        e.preventDefault();
+        open();
+      }
+      return;
+    }
+    if (e.key === 'Escape') (e.preventDefault(), close());
+    else if (e.key === 'ArrowDown') (e.preventDefault(), move(1));
+    else if (e.key === 'ArrowUp') (e.preventDefault(), move(-1));
+    else if (e.key === 'Enter') (e.preventDefault(), go());
+  });
+
+  document.querySelectorAll('[data-search-trigger]').forEach((b) => b.addEventListener('click', open));
+  document.querySelector('[data-search-close]')?.addEventListener('click', close);
+</script>
+
+<style>
+  .palette {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    display: flex;
+    justify-content: center;
+    padding-top: 13vh;
+  }
+  .palette[hidden] {
+    display: none;
+  }
+  .overlay {
+    position: fixed;
+    inset: 0;
+    border: 0;
+    padding: 0;
+    background: rgba(0, 0, 0, 0.62);
+    backdrop-filter: blur(4px);
+    cursor: pointer;
+  }
+  .box {
+    position: relative;
+    width: min(640px, 92vw);
+    max-height: 74vh;
+    display: flex;
+    flex-direction: column;
+    background: #000;
+    border: 1px solid #fff;
+  }
+  .field {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 0 18px;
+    border-bottom: 1px solid var(--line-strong);
+  }
+  .slash {
+    font-family: var(--font-mono);
+    font-size: 16px;
+    color: var(--accent);
+  }
+  .field input {
+    flex: 1;
+    height: 58px;
+    background: none;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 16px;
+  }
+  /* Recolor the native search clear button (default is off-brand blue) to a
+     white × via an alpha mask; dim → white on hover to match the chrome. */
+  .field input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    cursor: pointer;
+    background-color: var(--fg-dim);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M1 1l10 10M11 1L1 11' stroke='%23000' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E")
+      center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M1 1l10 10M11 1L1 11' stroke='%23000' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E")
+      center / contain no-repeat;
+    transition: background-color 0.15s;
+  }
+  .field input::-webkit-search-cancel-button:hover {
+    background-color: #fff;
+  }
+  .count {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--fg-faint);
+  }
+  .results {
+    overflow-y: auto;
+    flex: 1;
+  }
+  .results :global(.result) {
+    display: block;
+    padding: 13px 18px;
+    border-left: 2px solid transparent;
+    text-decoration: none;
+    color: inherit;
+  }
+  .results :global(.result.active) {
+    background: rgba(255, 255, 255, 0.08);
+    border-left-color: var(--accent);
+  }
+  .results :global(.r-title) {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 15.5px;
+    line-height: 1.2;
+    color: #fff;
+  }
+  .results :global(.r-excerpt) {
+    margin-top: 4px;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--fg-dim);
+  }
+  .results :global(.r-excerpt mark) {
+    background: none;
+    color: #fff;
+    font-weight: 600;
+  }
+  .results :global(.empty) {
+    padding: 34px 18px;
+    text-align: center;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    color: var(--fg-faint);
+  }
+  .hints {
+    display: flex;
+    gap: 18px;
+    padding: 10px 18px;
+    border-top: 1px solid var(--line-strong);
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    color: var(--fg-faint);
+  }
+</style>

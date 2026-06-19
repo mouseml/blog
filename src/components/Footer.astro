@@ -1,0 +1,44 @@
+---
+import { url } from '../lib/base';
+---
+
+<footer>
+  <div class="inner">
+    <nav class="mono">
+      <a href="https://www.youtube.com/channel/UCscWjyvPudzdIaGCCtEL3nw" target="_blank" rel="noopener">YouTube</a>
+      <a href="https://t.me/ml_mouse" target="_blank" rel="noopener">Telegram</a>
+      <a href={url('license/')}>Лицензия</a>
+    </nav>
+  </div>
+</footer>
+
+<style>
+  footer {
+    border-top: 1px solid var(--line);
+  }
+  .inner {
+    max-width: var(--wrap);
+    margin: 0 auto;
+    padding: 30px 22px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    font-size: 11px;
+  }
+  nav a {
+    color: var(--fg-faint);
+    letter-spacing: 0.16em;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+  nav a:hover {
+    color: #fff;
+  }
+</style>
