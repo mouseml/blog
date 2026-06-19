@@ -336,3 +336,6 @@ pyrightconfig.json
 
 # Manim generated files
 media
+
+# Claude plans
+docs/plans
