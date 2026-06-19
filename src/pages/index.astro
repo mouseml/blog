@@ -50,7 +50,6 @@ const lastUpdated = formatDate(new Date());
               <div class="grow" />
               <div class="foot mono">
                 <span>{p.data.minutes} мин чтения</span>
-                <span class="tag">текст видео</span>
               </div>
             </div>
           </a>
@@ -205,13 +204,8 @@ const lastUpdated = formatDate(new Date());
   .foot {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     font-size: 11px;
     letter-spacing: 0.09em;
     color: var(--fg-faint);
-  }
-  .tag {
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 3px 7px;
   }
 </style>
