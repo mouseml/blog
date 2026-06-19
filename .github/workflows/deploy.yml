@@ -25,11 +25,23 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # Default lfs:false — leave cheap pointer files; real bytes come from the
+      # cache below so unchanged artifacts don't re-spend LFS bandwidth quota
+      # (Actions LFS fetches count, and ~25 MB/build would exhaust the 1 GB/mo
+      # free tier in ~40 cold builds). The build needs real bytes: public/static
+      # files are copied verbatim into dist/ as post download assets.
       - uses: actions/checkout@v4
+      - name: List LFS object ids (cache key)
+        run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
+      - name: Cache LFS objects
+        uses: actions/cache@v4
         with:
-          # Post artifacts (.csv/.pt/.zip) are Git LFS — fetch real bytes so the
-          # build bakes them into dist/ instead of LFS pointer files.
-          lfs: true
+          path: .git/lfs
+          # Key hashes the set of LFS object ids — changes only when an artifact
+          # is added/edited (≈ once per new post), so it's a hit on most builds.
+          key: lfs-${{ hashFiles('.lfs-assets-id') }}
+      - name: Pull LFS (only missing objects — zero bandwidth on cache hit)
+        run: git lfs pull
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: 1.3.8
