@@ -1,0 +1,8 @@
+# Post artifacts (datasets, models, archives) tracked via Git LFS.
+# Binary types only — text companions (e.g. *.py) stay as readable source.
+# Deploy note: GitHub Pages serves LFS pointers, not bytes — the deploy
+# workflow MUST check out with `lfs: true` so the build bakes real files
+# into dist/.
+public/static/**/*.zip filter=lfs diff=lfs merge=lfs -text
+public/static/**/*.csv filter=lfs diff=lfs merge=lfs -text
+public/static/**/*.pt  filter=lfs diff=lfs merge=lfs -text
