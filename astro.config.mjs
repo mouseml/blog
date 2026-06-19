@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig, passthroughImageService } from 'astro/config';
 import expressiveCode, { pluginFramesTexts } from 'astro-expressive-code';
+import sitemap from '@astrojs/sitemap';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import { pluginOutputBlocks } from './src/lib/ec-output.mjs';
@@ -48,5 +49,7 @@ export default defineConfig({
         },
       },
     }),
+    // Build-time sitemap (sitemap-index.xml) from `site` + `base`, for search engines.
+    sitemap(),
   ],
 });

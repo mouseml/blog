@@ -1,0 +1,52 @@
+# Build the Astro site (+ Pagefind index) and deploy to GitHub Pages.
+# Replaces the old `mkdocs gh-deploy` → gh-pages branch flow. After merging,
+# set Pages source to "GitHub Actions" in the repo settings (Settings → Pages).
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    # Deploys from main once merged; astro-migration lets us verify the live
+    # site (base path, assets, search) before the cutover — drop it after merge.
+    branches: [main, astro-migration]
+  workflow_dispatch:
+
+# Least privilege for the Pages deployment (OIDC token + Pages write).
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One live deployment at a time; let an in-flight deploy finish.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Post artifacts (.csv/.pt/.zip) are Git LFS — fetch real bytes so the
+          # build bakes them into dist/ instead of LFS pointer files.
+          lfs: true
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.8
+      - uses: actions/configure-pages@v5
+      - run: bun install --frozen-lockfile
+      # `astro build && pagefind --site dist` — emits the site + search index.
+      - run: bun run build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
