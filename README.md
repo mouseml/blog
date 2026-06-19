@@ -1,29 +1,29 @@
 # мыш блог
 
-Всем привет! Это репозиторий [блога](https://mouseml.github.io/blog) со статьями по видео на канале [мыш](https://www.youtube.com/channel/UCscWjyvPudzdIaGCCtEL3nw).
+Это репозиторий [блога](https://mouseml.github.io/blog) с постами по видео на канале [мыш](https://www.youtube.com/channel/UCscWjyvPudzdIaGCCtEL3nw).
 
-Я мог сделать ошибки в статьях, поэтому буду рад, если вы поможете их найти. Об ошибках можно сообщить в [Telegram](https://t.me/ml_mouse), через [GitHub Issue](https://github.com/mouseml/blog/issues) или [Pull Request](https://github.com/mouseml/blog/pulls).
+Я мог сделать ошибки в постах, поэтому буду рад, если вы поможете их найти. Об ошибках можно сообщить в [Telegram](https://t.me/ml_mouse), через [GitHub Issue](https://github.com/mouseml/blog/issues) или [Pull Request](https://github.com/mouseml/blog/pulls).
 
-Я слежу за вами через Google Analytics. Так я могу узнать, какие статьи вы чаще читаете и сколько времени проводите на странице. Это помогает мне делать статьи полезнее.
+Я слежу за вами через Google Analytics. Так я могу узнать, какие посты вы чаще читаете и сколько времени проводите на странице. Это помогает мне делать посты полезнее.
 
 ## Разработка
 
-Зависимостями проекта управляет [uv](https://docs.astral.sh/uv). Установить uv можно по [этой инструкции](https://docs.astral.sh/uv/getting-started/installation/). Для установки зависимостей с помощью uv выполните команду:
+Блог собран на [Astro](https://astro.build), пакетный менеджер — [Bun](https://bun.sh). Установить Bun можно по [этой инструкции](https://bun.sh/docs/installation). Установите зависимости:
 
 ```shell
-uv sync
+bun install
 ```
 
-После установки зависимостей блог можно запустить локально с помощью команды:
+Запустите блог локально с горячей перезагрузкой:
 
 ```shell
-mkdocs serve
+bun run dev
+```
+
+Перед публикацией можно собрать продакшен-версию (Astro + полнотекстовый поиск Pagefind):
+
+```shell
+bun run build
 ```
 
 Так можно внести изменения и проверить окончательный вариант страниц перед публикацией.
-
-## Лицензия
-
-Я использую лицензию [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/) для всех материалов в блоге: текстов статей, диаграмм и исходного кода. Это значит, что вы можете копировать и размещать их где угодно, если оставите ссылку на [этот блог](https://mouseml.github.io/blog) и [YouTube канал](https://www.youtube.com/channel/UCscWjyvPudzdIaGCCtEL3nw).
-
-Я запрещаю использовать любые материалы из блога в коммерческих целях. Их нельзя продавать, монетизировать и использовать для привлечения клиентов.

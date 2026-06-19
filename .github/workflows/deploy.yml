@@ -1,13 +1,11 @@
 # Build the Astro site (+ Pagefind index) and deploy to GitHub Pages.
-# Replaces the old `mkdocs gh-deploy` → gh-pages branch flow. After merging,
-# set Pages source to "GitHub Actions" in the repo settings (Settings → Pages).
+# Replaces the old `mkdocs gh-deploy` → gh-pages flow (Pages source = GitHub Actions).
 name: Deploy to GitHub Pages
 
 on:
+  # Auto-deploy on push to main; workflow_dispatch for manual redeploys.
   push:
-    # Deploys from main once merged; astro-migration lets us verify the live
-    # site (base path, assets, search) before the cutover — drop it after merge.
-    branches: [main, astro-migration]
+    branches: [main]
   workflow_dispatch:
 
 # Least privilege for the Pages deployment (OIDC token + Pages write).
