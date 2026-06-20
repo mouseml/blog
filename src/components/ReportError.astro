@@ -77,63 +77,70 @@ const page = new URL(Astro.url.pathname, Astro.site).href;
   cancel?.addEventListener('click', closeForm);
   form?.addEventListener('submit', (e) => e.preventDefault()); // relay wired in a later step
 
-  // ----- the floating select-text trigger -----------------------------------
-  // The current valid selection text, kept fresh so the floating button never
-  // has to read the (possibly already-collapsed) selection at click time.
-  let pending = '';
+  // ----- the floating select-text trigger (fine-pointer devices only) -------
+  // On touch, the OS owns text selection: iOS/Android paint their own callout
+  // (Copy / Look Up / Share …) at the selection, composited *above* the web
+  // view — a button placed there can't sit on top of it and just collides, with
+  // no standard way to dodge or suppress it. So the floating trigger is a
+  // mouse/trackpad enhancement; touch users use the end-of-post button instead.
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    // The current valid selection text, kept fresh so the floating button never
+    // has to read the (possibly already-collapsed) selection at click time.
+    let pending = '';
 
-  function selectionText(): string {
-    const sel = window.getSelection();
-    if (!sel || sel.isCollapsed || sel.rangeCount === 0 || !prose) return '';
-    const range = sel.getRangeAt(0);
-    if (!prose.contains(range.commonAncestorContainer)) return ''; // only inside the post body
-    return sel.toString().trim();
-  }
+    function selectionText(): string {
+      const sel = window.getSelection();
+      if (!sel || sel.isCollapsed || sel.rangeCount === 0 || !prose) return '';
+      const range = sel.getRangeAt(0);
+      if (!prose.contains(range.commonAncestorContainer)) return ''; // only inside the post body
+      return sel.toString().trim();
+    }
 
-  function placeFloat() {
-    const sel = window.getSelection();
-    if (!float || !sel || sel.rangeCount === 0) return hideFloat();
-    const rect = sel.getRangeAt(0).getBoundingClientRect();
-    if (!rect.width && !rect.height) return hideFloat();
-    float.hidden = false; // make it measurable before positioning
-    const h = float.offsetHeight;
-    const halfW = float.offsetWidth / 2;
-    const top = rect.top > h + 16 ? rect.top - h - 8 : rect.bottom + 8;
-    const left = Math.min(Math.max(rect.left + rect.width / 2, halfW + 6), window.innerWidth - halfW - 6);
-    float.style.top = `${top}px`;
-    float.style.left = `${left}px`;
-  }
-  function hideFloat() {
-    if (float) float.hidden = true;
-  }
+    function placeFloat() {
+      const sel = window.getSelection();
+      if (!float || !sel || sel.rangeCount === 0) return hideFloat();
+      const rect = sel.getRangeAt(0).getBoundingClientRect();
+      if (!rect.width && !rect.height) return hideFloat();
+      float.hidden = false; // make it measurable before positioning
+      const h = float.offsetHeight;
+      const halfW = float.offsetWidth / 2;
+      const top = rect.top > h + 16 ? rect.top - h - 8 : rect.bottom + 8;
+      const left = Math.min(Math.max(rect.left + rect.width / 2, halfW + 6), window.innerWidth - halfW - 6);
+      float.style.top = `${top}px`;
+      float.style.left = `${left}px`;
+    }
+    function hideFloat() {
+      if (float) float.hidden = true;
+    }
 
-  let queued = false;
-  function refresh() {
-    pending = selectionText();
-    pending ? placeFloat() : hideFloat();
-  }
-  document.addEventListener('selectionchange', () => {
-    if (queued) return;
-    queued = true;
-    requestAnimationFrame(() => {
-      queued = false;
-      refresh();
+    let queued = false;
+    function refresh() {
+      pending = selectionText();
+      pending ? placeFloat() : hideFloat();
+    }
+    document.addEventListener('selectionchange', () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => {
+        queued = false;
+        refresh();
+      });
     });
-  });
-  // Keep the button glued to the text as the page scrolls/resizes.
-  addEventListener('scroll', () => float && !float.hidden && refresh(), { passive: true });
-  addEventListener('resize', () => float && !float.hidden && refresh(), { passive: true });
+    // Keep the button glued to the text as the page scrolls/resizes.
+    addEventListener('scroll', () => float && !float.hidden && refresh(), { passive: true });
+    addEventListener('resize', () => float && !float.hidden && refresh(), { passive: true });
 
-  // pointerdown + preventDefault keeps the click from collapsing the selection
-  // and stealing focus before we act on the stored `pending` text.
-  float?.addEventListener('pointerdown', (e) => {
-    e.preventDefault();
-    if (!pending) return;
-    setQuote(pending);
-    hideFloat();
-    window.getSelection()?.removeAllRanges();
-    openForm(true);
-  });
+    // pointerdown + preventDefault keeps the click from collapsing the selection
+    // and stealing focus before we act on the stored `pending` text.
+    float?.addEventListener('pointerdown', (e) => {
+      e.preventDefault();
+      if (!pending) return;
+      setQuote(pending);
+      hideFloat();
+      window.getSelection()?.removeAllRanges();
+      openForm(true);
+    });
+  }
 </script>
 
 <style>
