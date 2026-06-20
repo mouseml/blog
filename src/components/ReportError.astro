@@ -1,9 +1,17 @@
 ---
-// End-of-post "found a mistake?" affordance: a quiet toggle that reveals an
-// inline report form (textarea + submit). This step builds the markup and the
-// open/close behaviour only — the form is not wired to a relay yet (later step),
-// and the select-text trigger that prefills it is added separately. Kept out of
-// the Pagefind index via data-pagefind-ignore so it never appears in search.
+// End-of-post "found a mistake?" affordance + a select-text trigger.
+//
+//  - The always-works path: an end-of-post `Нашли ошибку?` toggle that reveals
+//    an inline report form (textarea + submit). Submit is not wired to a relay
+//    yet (later step) — it's intercepted so the page doesn't navigate.
+//  - The high-intent path: selecting text inside `.prose` pops a small floating
+//    `Сообщить об ошибке` button near the selection; clicking it opens the same
+//    form, scrolls to it, and prefills the quoted selection. The selection is
+//    the report, so the user only adds (optionally) a note.
+//
+// The whole thing is server-rendered with a hidden `page` field carrying the
+// canonical URL, ready for the relay step. Kept out of the Pagefind index via
+// data-pagefind-ignore so neither button text ever appears in search.
 const page = new URL(Astro.url.pathname, Astro.site).href;
 ---
 
@@ -14,6 +22,8 @@ const page = new URL(Astro.url.pathname, Astro.site).href;
 
   <form class="report-form" id="report-form" hidden>
     <p class="report-hint">Опечатка, неточность или битая ссылка — напишите, что не так, и я поправлю.</p>
+    <blockquote class="report-quote" hidden></blockquote>
+    <input type="hidden" name="quote" class="report-quote-input" />
     <textarea
       class="report-text"
       name="message"
@@ -26,27 +36,104 @@ const page = new URL(Astro.url.pathname, Astro.site).href;
       <button class="report-submit mono" type="submit">Отправить</button>
     </div>
   </form>
+
+  <button class="report-float mono" type="button" hidden>Сообщить об ошибке</button>
 </section>
 
 <script>
-  // Toggle the inline report form. Submission is wired to a relay in a later
-  // step; for now the submit is intercepted so the page doesn't navigate.
   const root = document.querySelector<HTMLElement>('.report');
   const toggle = root?.querySelector<HTMLButtonElement>('.report-toggle');
   const form = root?.querySelector<HTMLFormElement>('.report-form');
   const cancel = root?.querySelector<HTMLButtonElement>('.report-cancel');
   const textarea = root?.querySelector<HTMLTextAreaElement>('.report-text');
+  const quoteBox = root?.querySelector<HTMLElement>('.report-quote');
+  const quoteInput = root?.querySelector<HTMLInputElement>('.report-quote-input');
+  const float = root?.querySelector<HTMLButtonElement>('.report-float');
+  const prose = document.querySelector<HTMLElement>('.prose');
 
-  function setOpen(open: boolean) {
-    if (!form || !toggle) return;
-    form.hidden = !open;
-    toggle.setAttribute('aria-expanded', String(open));
-    if (open) textarea?.focus();
+  // ----- the inline form (open/close + prefill) -----------------------------
+  function setQuote(text: string) {
+    if (!quoteBox || !quoteInput) return;
+    quoteInput.value = text;
+    quoteBox.textContent = text ? `«${text}»` : '';
+    quoteBox.hidden = !text;
   }
 
-  toggle?.addEventListener('click', () => setOpen(form?.hidden !== false));
-  cancel?.addEventListener('click', () => setOpen(false));
-  form?.addEventListener('submit', (e) => e.preventDefault());
+  function openForm(center: boolean) {
+    if (!form || !toggle) return;
+    form.hidden = false;
+    toggle.setAttribute('aria-expanded', 'true');
+    textarea?.focus({ preventScroll: true });
+    form.scrollIntoView({ behavior: 'smooth', block: center ? 'center' : 'nearest' });
+  }
+  function closeForm() {
+    if (!form || !toggle) return;
+    form.hidden = true;
+    toggle.setAttribute('aria-expanded', 'false');
+  }
+
+  // Plain toggle preserves whatever was typed/quoted before (nice on re-open).
+  toggle?.addEventListener('click', () => (form?.hidden !== false ? openForm(false) : closeForm()));
+  cancel?.addEventListener('click', closeForm);
+  form?.addEventListener('submit', (e) => e.preventDefault()); // relay wired in a later step
+
+  // ----- the floating select-text trigger -----------------------------------
+  // The current valid selection text, kept fresh so the floating button never
+  // has to read the (possibly already-collapsed) selection at click time.
+  let pending = '';
+
+  function selectionText(): string {
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed || sel.rangeCount === 0 || !prose) return '';
+    const range = sel.getRangeAt(0);
+    if (!prose.contains(range.commonAncestorContainer)) return ''; // only inside the post body
+    return sel.toString().trim();
+  }
+
+  function placeFloat() {
+    const sel = window.getSelection();
+    if (!float || !sel || sel.rangeCount === 0) return hideFloat();
+    const rect = sel.getRangeAt(0).getBoundingClientRect();
+    if (!rect.width && !rect.height) return hideFloat();
+    float.hidden = false; // make it measurable before positioning
+    const h = float.offsetHeight;
+    const halfW = float.offsetWidth / 2;
+    const top = rect.top > h + 16 ? rect.top - h - 8 : rect.bottom + 8;
+    const left = Math.min(Math.max(rect.left + rect.width / 2, halfW + 6), window.innerWidth - halfW - 6);
+    float.style.top = `${top}px`;
+    float.style.left = `${left}px`;
+  }
+  function hideFloat() {
+    if (float) float.hidden = true;
+  }
+
+  let queued = false;
+  function refresh() {
+    pending = selectionText();
+    pending ? placeFloat() : hideFloat();
+  }
+  document.addEventListener('selectionchange', () => {
+    if (queued) return;
+    queued = true;
+    requestAnimationFrame(() => {
+      queued = false;
+      refresh();
+    });
+  });
+  // Keep the button glued to the text as the page scrolls/resizes.
+  addEventListener('scroll', () => float && !float.hidden && refresh(), { passive: true });
+  addEventListener('resize', () => float && !float.hidden && refresh(), { passive: true });
+
+  // pointerdown + preventDefault keeps the click from collapsing the selection
+  // and stealing focus before we act on the stored `pending` text.
+  float?.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    if (!pending) return;
+    setQuote(pending);
+    hideFloat();
+    window.getSelection()?.removeAllRanges();
+    openForm(true);
+  });
 </script>
 
 <style>
@@ -80,6 +167,16 @@ const page = new URL(Astro.url.pathname, Astro.site).href;
     font-size: 13px;
     line-height: 1.5;
     color: var(--fg-dim);
+  }
+  .report-quote {
+    margin: 0 0 12px;
+    padding: 9px 13px;
+    border-left: 2px solid var(--line-strong);
+    background: var(--hover);
+    color: var(--fg-dim);
+    font-size: 14px;
+    font-style: normal;
+    line-height: 1.5;
   }
   .report-text {
     display: block;
@@ -129,5 +226,25 @@ const page = new URL(Astro.url.pathname, Astro.site).href;
   }
   .report-submit:hover {
     background: rgba(255, 255, 255, 0.08);
+  }
+
+  /* Floating trigger: solid black plate + hairline border reads cleanly over
+     body text without a shadow (on-brand). Positioned in JS (viewport coords). */
+  .report-float {
+    position: fixed;
+    z-index: 60;
+    transform: translateX(-50%);
+    padding: 7px 11px;
+    background: #000;
+    border: 1px solid #fff;
+    border-radius: 0;
+    color: #fff;
+    font-size: 10px;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .report-float:hover {
+    background: rgba(255, 255, 255, 0.12);
   }
 </style>
