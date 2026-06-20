@@ -1,17 +1,20 @@
 ---
-// End-of-post "found a mistake?" affordance + a select-text trigger.
+// End-of-post "found a mistake?" affordance + a select-text trigger, wired to
+// Web3Forms (a no-backend relay) → a dedicated alias the author monitors.
 //
-//  - The always-works path: an end-of-post `Нашли ошибку?` toggle that reveals
-//    an inline report form (textarea + submit). Submit is not wired to a relay
-//    yet (later step) — it's intercepted so the page doesn't navigate.
-//  - The high-intent path: selecting text inside `.prose` pops a small floating
-//    `Сообщить об ошибке` button near the selection; clicking it opens the same
-//    form, scrolls to it, and prefills the quoted selection. The selection is
-//    the report, so the user only adds (optionally) a note.
+//  - The always-works path: an end-of-post `Нашли ошибку?` toggle reveals an
+//    inline report form (optional note). Submits over fetch, so the reader
+//    stays on the page; on success the form collapses to a thank-you, on
+//    failure it points at the (already-public) Telegram.
+//  - The high-intent path (mouse/trackpad only — see the gate below): selecting
+//    text inside `.prose` pops a floating `Сообщить об ошибке` button; clicking
+//    it opens the same form prefilled with the quoted selection.
 //
-// The whole thing is server-rendered with a hidden `page` field carrying the
-// canonical URL, ready for the relay step. Kept out of the Pagefind index via
-// data-pagefind-ignore so neither button text ever appears in search.
+// The Web3Forms access key is public by design (it ships in client requests
+// regardless), so it lives in the repo like the GA id. Spam is contained by the
+// `botcheck` honeypot + a throwaway alias as the destination. The whole section
+// is data-pagefind-ignore so none of its text lands in search.
+const ACCESS_KEY = '8e12eb37-5ac0-42c5-b8e9-384ee5345607';
 const page = new URL(Astro.url.pathname, Astro.site).href;
 ---
 
@@ -23,44 +26,70 @@ const page = new URL(Astro.url.pathname, Astro.site).href;
   <form class="report-form" id="report-form" hidden>
     <p class="report-hint">Опечатка, неточность или битая ссылка — напишите, что не так, и я поправлю.</p>
     <blockquote class="report-quote" hidden></blockquote>
-    <input type="hidden" name="quote" class="report-quote-input" />
     <textarea
       class="report-text"
       name="message"
       rows="3"
       required
       placeholder="Что нужно поправить?"></textarea>
+
+    <input type="hidden" name="access_key" value={ACCESS_KEY} />
+    <input type="hidden" name="subject" value="Отчёт об ошибке — мыш блог" />
+    <input type="hidden" name="from_name" value="мыш блог" />
+    <input type="hidden" name="quote" class="report-quote-input" />
     <input type="hidden" name="page" value={page} />
+    <!-- Honeypot: invisible to people; bots that tick it are dropped by Web3Forms. -->
+    <input type="checkbox" name="botcheck" class="report-bot" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
     <div class="report-actions">
       <button class="report-cancel mono" type="button">Отмена</button>
       <button class="report-submit mono" type="submit">Отправить</button>
     </div>
   </form>
 
+  <p class="report-status" role="status" hidden></p>
+
   <button class="report-float mono" type="button" hidden>Сообщить об ошибке</button>
 </section>
 
 <script>
+  const ENDPOINT = 'https://api.web3forms.com/submit';
+
   const root = document.querySelector<HTMLElement>('.report');
   const toggle = root?.querySelector<HTMLButtonElement>('.report-toggle');
   const form = root?.querySelector<HTMLFormElement>('.report-form');
   const cancel = root?.querySelector<HTMLButtonElement>('.report-cancel');
+  const submit = root?.querySelector<HTMLButtonElement>('.report-submit');
   const textarea = root?.querySelector<HTMLTextAreaElement>('.report-text');
   const quoteBox = root?.querySelector<HTMLElement>('.report-quote');
   const quoteInput = root?.querySelector<HTMLInputElement>('.report-quote-input');
+  const status = root?.querySelector<HTMLElement>('.report-status');
   const float = root?.querySelector<HTMLButtonElement>('.report-float');
   const prose = document.querySelector<HTMLElement>('.prose');
 
-  // ----- the inline form (open/close + prefill) -----------------------------
+  // ----- the inline form (open/close + prefill + submit) --------------------
   function setQuote(text: string) {
     if (!quoteBox || !quoteInput) return;
     quoteInput.value = text;
     quoteBox.textContent = text ? `«${text}»` : '';
     quoteBox.hidden = !text;
+    if (textarea) textarea.required = !text; // the quote is the report → note optional
+  }
+  function setStatus(kind: 'ok' | 'error', html: string) {
+    if (!status) return;
+    status.dataset.kind = kind;
+    status.innerHTML = html;
+    status.hidden = false;
+  }
+  function clearStatus() {
+    if (!status) return;
+    status.hidden = true;
+    status.textContent = '';
   }
 
   function openForm(center: boolean) {
     if (!form || !toggle) return;
+    clearStatus();
     form.hidden = false;
     toggle.setAttribute('aria-expanded', 'true');
     textarea?.focus({ preventScroll: true });
@@ -75,7 +104,37 @@ const page = new URL(Astro.url.pathname, Astro.site).href;
   // Plain toggle preserves whatever was typed/quoted before (nice on re-open).
   toggle?.addEventListener('click', () => (form?.hidden !== false ? openForm(false) : closeForm()));
   cancel?.addEventListener('click', closeForm);
-  form?.addEventListener('submit', (e) => e.preventDefault()); // relay wired in a later step
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form || !submit) return;
+    const label = submit.textContent;
+    submit.disabled = true;
+    submit.textContent = 'Отправляю…';
+    clearStatus();
+    try {
+      const res = await fetch(ENDPOINT, {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: new FormData(form),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.message || 'failed');
+      closeForm();
+      form.reset();
+      setQuote('');
+      setStatus('ok', 'Спасибо! Отчёт отправлен — я всё проверю и поправлю.');
+    } catch {
+      // Relay down / rejected: fall back to the already-public Telegram.
+      setStatus(
+        'error',
+        'Не удалось отправить. Напишите в <a href="https://t.me/ml_mouse" target="_blank" rel="noopener">Telegram</a> или попробуйте позже.',
+      );
+    } finally {
+      submit.disabled = false;
+      submit.textContent = label;
+    }
+  });
 
   // ----- the floating select-text trigger (fine-pointer devices only) -------
   // On touch, the OS owns text selection: iOS/Android paint their own callout
@@ -206,6 +265,10 @@ const page = new URL(Astro.url.pathname, Astro.site).href;
   .report-text::placeholder {
     color: var(--fg-faint);
   }
+  /* Honeypot — kept out of sight and out of the tab order. */
+  .report-bot {
+    display: none;
+  }
 
   .report-actions {
     display: flex;
@@ -233,6 +296,25 @@ const page = new URL(Astro.url.pathname, Astro.site).href;
   }
   .report-submit:hover {
     background: rgba(255, 255, 255, 0.08);
+  }
+  .report-submit:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  .report-status {
+    margin-top: 16px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--fg-dim);
+  }
+  .report-status[data-kind='error'] {
+    color: var(--fg-body);
+  }
+  .report-status a {
+    color: #fff;
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
 
   /* Floating trigger: solid black plate + hairline border reads cleanly over
