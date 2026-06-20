@@ -2,7 +2,7 @@
 
 Это репозиторий [блога](https://mouseml.github.io/blog) с постами по видео на канале [мыш](https://www.youtube.com/channel/UCscWjyvPudzdIaGCCtEL3nw).
 
-Я мог сделать ошибки в постах, поэтому буду рад, если вы поможете их найти. Об ошибках можно сообщить в [Telegram](https://t.me/ml_mouse), через [GitHub Issue](https://github.com/mouseml/blog/issues) или [Pull Request](https://github.com/mouseml/blog/pulls).
+Я мог сделать ошибки в постах, поэтому буду рад, если вы поможете их найти. Проще всего — кнопкой «Нашли ошибку?» в конце любого поста (или выделите текст с ошибкой). Также можно написать в [Telegram](https://t.me/ml_mouse), открыть [GitHub Issue](https://github.com/mouseml/blog/issues) или [Pull Request](https://github.com/mouseml/blog/pulls).
 
 Я слежу за вами через Google Analytics. Так я могу узнать, какие посты вы чаще читаете и сколько времени проводите на странице. Это помогает мне делать посты полезнее.
 
