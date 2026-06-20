@@ -1,0 +1,133 @@
+---
+// End-of-post "found a mistake?" affordance: a quiet toggle that reveals an
+// inline report form (textarea + submit). This step builds the markup and the
+// open/close behaviour only — the form is not wired to a relay yet (later step),
+// and the select-text trigger that prefills it is added separately. Kept out of
+// the Pagefind index via data-pagefind-ignore so it never appears in search.
+const page = new URL(Astro.url.pathname, Astro.site).href;
+---
+
+<section class="report" data-pagefind-ignore>
+  <button class="report-toggle mono" type="button" aria-expanded="false" aria-controls="report-form">
+    Нашли ошибку?
+  </button>
+
+  <form class="report-form" id="report-form" hidden>
+    <p class="report-hint">Опечатка, неточность или битая ссылка — напишите, что не так, и я поправлю.</p>
+    <textarea
+      class="report-text"
+      name="message"
+      rows="3"
+      required
+      placeholder="Что нужно поправить?"></textarea>
+    <input type="hidden" name="page" value={page} />
+    <div class="report-actions">
+      <button class="report-cancel mono" type="button">Отмена</button>
+      <button class="report-submit mono" type="submit">Отправить</button>
+    </div>
+  </form>
+</section>
+
+<script>
+  // Toggle the inline report form. Submission is wired to a relay in a later
+  // step; for now the submit is intercepted so the page doesn't navigate.
+  const root = document.querySelector<HTMLElement>('.report');
+  const toggle = root?.querySelector<HTMLButtonElement>('.report-toggle');
+  const form = root?.querySelector<HTMLFormElement>('.report-form');
+  const cancel = root?.querySelector<HTMLButtonElement>('.report-cancel');
+  const textarea = root?.querySelector<HTMLTextAreaElement>('.report-text');
+
+  function setOpen(open: boolean) {
+    if (!form || !toggle) return;
+    form.hidden = !open;
+    toggle.setAttribute('aria-expanded', String(open));
+    if (open) textarea?.focus();
+  }
+
+  toggle?.addEventListener('click', () => setOpen(form?.hidden !== false));
+  cancel?.addEventListener('click', () => setOpen(false));
+  form?.addEventListener('submit', (e) => e.preventDefault());
+</script>
+
+<style>
+  .report {
+    margin-top: 40px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+  }
+
+  .report-toggle {
+    display: inline-flex;
+    align-items: center;
+    padding: 0;
+    background: none;
+    border: 0;
+    font-size: 11px;
+    color: var(--fg-faint);
+    cursor: pointer;
+    transition: color 0.15s;
+  }
+  .report-toggle:hover,
+  .report-toggle[aria-expanded='true'] {
+    color: #fff;
+  }
+
+  .report-form {
+    margin-top: 16px;
+  }
+  .report-hint {
+    margin: 0 0 12px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--fg-dim);
+  }
+  .report-text {
+    display: block;
+    width: 100%;
+    padding: 11px 13px;
+    background: var(--hover);
+    border: 1px solid var(--line);
+    border-radius: 0;
+    color: var(--fg-body);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.5;
+    resize: vertical;
+  }
+  .report-text:focus {
+    outline: none;
+    border-color: var(--line-strong);
+    color: #fff;
+  }
+  .report-text::placeholder {
+    color: var(--fg-faint);
+  }
+
+  .report-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .report-cancel,
+  .report-submit {
+    padding: 9px 16px;
+    font-size: 11px;
+    border: 1px solid var(--line);
+    border-radius: 0;
+    background: none;
+    color: var(--fg-dim);
+    cursor: pointer;
+    transition: color 0.15s, background 0.15s, border-color 0.15s;
+  }
+  .report-cancel:hover {
+    color: #fff;
+    border-color: var(--line-strong);
+  }
+  .report-submit {
+    border-color: #fff;
+    color: #fff;
+  }
+  .report-submit:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+</style>

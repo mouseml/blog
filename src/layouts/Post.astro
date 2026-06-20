@@ -1,5 +1,6 @@
 ---
 import Base from './Base.astro';
+import ReportError from '../components/ReportError.astro';
 import { url } from '../lib/base';
 import { formatDate } from '../lib/date';
 import 'katex/dist/katex.min.css';
@@ -86,6 +87,8 @@ for (const h of headings as Heading[]) {
             )
           }
         </nav>
+
+        <ReportError />
       </div>
 
       {
