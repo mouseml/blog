@@ -29,7 +29,11 @@ const { postId } = Astro.props;
         // gtag is prod-only and may be ad-blocked → optional call, silent no-op otherwise.
         const w = window as unknown as { gtag?: (...args: unknown[]) => void };
         w.gtag?.('event', 'helpful', { post_id: post, rating });
-        root.innerHTML = '<span class="helpful-q mono">Спасибо за отзыв!</span>';
+        // Retitle the existing (scoped-styled) label and drop the buttons — a fresh
+        // span via innerHTML would lose the component's scoped 11px styling.
+        const label = root.querySelector<HTMLElement>('.helpful-q');
+        if (label) label.textContent = 'Спасибо за отзыв!';
+        root.querySelector('.helpful-actions')?.remove();
       });
     });
   }
