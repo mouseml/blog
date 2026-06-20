@@ -123,7 +123,7 @@ const page = new URL(Astro.url.pathname, Astro.site).href;
       closeForm();
       form.reset();
       setQuote('');
-      setStatus('ok', 'Спасибо! Отчёт отправлен — я всё проверю и поправлю.');
+      setStatus('ok', 'Отчёт отправлен. Спасибо!');
     } catch {
       // Relay down / rejected: fall back to the already-public Telegram.
       setStatus(
@@ -203,12 +203,6 @@ const page = new URL(Astro.url.pathname, Astro.site).href;
 </script>
 
 <style>
-  .report {
-    margin-top: 40px;
-    padding-top: 22px;
-    border-top: 1px solid var(--line);
-  }
-
   .report-toggle {
     display: inline-flex;
     align-items: center;
@@ -240,7 +234,7 @@ const page = new URL(Astro.url.pathname, Astro.site).href;
     border-left: 2px solid var(--line-strong);
     background: var(--hover);
     color: var(--fg-dim);
-    font-size: 14px;
+    font-size: 13px;
     font-style: normal;
     line-height: 1.5;
   }
@@ -304,11 +298,19 @@ const page = new URL(Astro.url.pathname, Astro.site).href;
 
   .report-status {
     margin-top: 16px;
-    font-size: 13px;
     line-height: 1.5;
-    color: var(--fg-dim);
   }
+  /* success → the same 11px mono kicker as the helpful confirmation */
+  .report-status[data-kind='ok'] {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg-faint);
+  }
+  /* error → readable prose, since it carries the Telegram link */
   .report-status[data-kind='error'] {
+    font-size: 13px;
     color: var(--fg-body);
   }
   .report-status a {

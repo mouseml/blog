@@ -70,7 +70,10 @@ for (const h of headings as Heading[]) {
       <div class="col">
         <div class="prose"><slot /></div>
 
-        <HelpfulVote postId={post.id} />
+        <div class="feedback" data-pagefind-ignore>
+          <HelpfulVote postId={post.id} />
+          <ReportError />
+        </div>
 
         <nav class="prevnext" data-pagefind-ignore>
           {
@@ -90,8 +93,6 @@ for (const h of headings as Heading[]) {
             )
           }
         </nav>
-
-        <ReportError />
       </div>
 
       {
@@ -282,6 +283,16 @@ for (const h of headings as Heading[]) {
   .col {
     max-width: 740px;
     min-width: 0;
+  }
+
+  /* post-feedback block: the helpful vote + error report under one top rule */
+  .feedback {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 54px;
+    padding-top: 26px;
+    border-top: 1px solid var(--line);
   }
 
   /* prev / next */
