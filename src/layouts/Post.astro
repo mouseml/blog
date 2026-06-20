@@ -300,16 +300,18 @@ for (const h of headings as Heading[]) {
     display: grid;
     grid-template-columns: 1fr 1fr;
     margin-top: 54px;
-    border-top: 1px solid var(--line);
-    border-left: 1px solid var(--line);
+    border: 1px solid var(--line);
   }
   .pn {
     padding: 18px;
-    border-right: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
     text-decoration: none;
     color: #fff;
     transition: background 0.15s;
+  }
+  /* middle divider only when both cells exist — otherwise the box stays a clean
+     rectangle with one empty half (fixes the open bottom-left on first/last posts) */
+  .pn:first-child:not(:only-child) {
+    border-right: 1px solid var(--line);
   }
   .pn:hover {
     background: var(--hover);

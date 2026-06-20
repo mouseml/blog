@@ -330,12 +330,14 @@ const page = new URL(Astro.url.pathname, Astro.site).href;
     border: 1px solid #fff;
     border-radius: 0;
     color: #fff;
-    font-size: 10px;
+    font-size: 11px;
     white-space: nowrap;
     cursor: pointer;
-    transition: background 0.15s;
+    transition: background 0.15s, color 0.15s;
   }
+  /* invert to an opaque white plate on hover — never go translucent over text */
   .report-float:hover {
-    background: rgba(255, 255, 255, 0.12);
+    background: #fff;
+    color: #000;
   }
 </style>
