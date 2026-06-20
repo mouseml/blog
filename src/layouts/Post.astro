@@ -1,6 +1,7 @@
 ---
 import Base from './Base.astro';
 import ReportError from '../components/ReportError.astro';
+import HelpfulVote from '../components/HelpfulVote.astro';
 import { url } from '../lib/base';
 import { formatDate } from '../lib/date';
 import 'katex/dist/katex.min.css';
@@ -68,6 +69,8 @@ for (const h of headings as Heading[]) {
     <div class="layout">
       <div class="col">
         <div class="prose"><slot /></div>
+
+        <HelpfulVote postId={post.id} />
 
         <nav class="prevnext" data-pagefind-ignore>
           {
