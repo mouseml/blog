@@ -34,7 +34,7 @@ const page = new URL(Astro.url.pathname, Astro.site).href;
       placeholder="Что нужно поправить?"></textarea>
 
     <input type="hidden" name="access_key" value={ACCESS_KEY} />
-    <input type="hidden" name="subject" value="Отчёт об ошибке — мыш блог" />
+    <input type="hidden" name="subject" value="Отчет об ошибке — мыш блог" />
     <input type="hidden" name="from_name" value="мыш блог" />
     <input type="hidden" name="quote" class="report-quote-input" />
     <input type="hidden" name="page" value={page} />
@@ -123,7 +123,7 @@ const page = new URL(Astro.url.pathname, Astro.site).href;
       closeForm();
       form.reset();
       setQuote('');
-      setStatus('ok', 'Отчёт отправлен. Спасибо!');
+      setStatus('ok', 'Отчет отправлен. Спасибо!');
     } catch {
       // Relay down / rejected: fall back to the already-public Telegram.
       setStatus(
