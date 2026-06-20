@@ -1,0 +1,71 @@
+---
+// Private "was this helpful?" signal. Clicking Да/Нет fires a Google Analytics
+// event (gtag is already loaded in Base.astro, prod-only) with the post id +
+// yes/no — *no counter is rendered*, so it can't suffer the empty-counter /
+// ghost-town problem: it's feedback for the author, not social proof for the
+// reader. Degrades silently when gtag is absent (dev, or blocked by an
+// ad-blocker). Kept out of the Pagefind index via data-pagefind-ignore.
+interface Props {
+  postId: string;
+}
+const { postId } = Astro.props;
+---
+
+<div class="helpful" data-pagefind-ignore data-post={postId}>
+  <span class="helpful-q mono">Полезно?</span>
+  <div class="helpful-actions">
+    <button class="helpful-btn mono" type="button" data-value="yes">Да</button>
+    <button class="helpful-btn mono" type="button" data-value="no">Нет</button>
+  </div>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>('.helpful');
+  if (root) {
+    const post = root.dataset.post || '';
+    root.querySelectorAll<HTMLButtonElement>('.helpful-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const rating = btn.dataset.value || '';
+        // gtag is prod-only and may be ad-blocked → optional call, silent no-op otherwise.
+        const w = window as unknown as { gtag?: (...args: unknown[]) => void };
+        w.gtag?.('event', 'helpful', { post_id: post, rating });
+        // Retitle the existing (scoped-styled) label and drop the buttons — a fresh
+        // span via innerHTML would lose the component's scoped 11px styling.
+        const label = root.querySelector<HTMLElement>('.helpful-q');
+        if (label) label.textContent = 'Спасибо за отзыв!';
+        root.querySelector('.helpful-actions')?.remove();
+      });
+    });
+  }
+</script>
+
+<style>
+  .helpful {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .helpful-q {
+    font-size: 11px;
+    color: var(--fg-faint);
+  }
+  .helpful-actions {
+    display: flex;
+    gap: 10px;
+  }
+  .helpful-btn {
+    padding: 7px 16px;
+    font-size: 11px;
+    border: 1px solid var(--line);
+    border-radius: 0;
+    background: none;
+    color: var(--fg-dim);
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+  }
+  .helpful-btn:hover {
+    color: #fff;
+    border-color: var(--line-strong);
+    background: rgba(255, 255, 255, 0.04);
+  }
+</style>
