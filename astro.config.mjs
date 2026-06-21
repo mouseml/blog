@@ -7,6 +7,7 @@ import rehypeKatex from 'rehype-katex';
 import { pluginOutputBlocks } from './src/lib/ec-output.mjs';
 import { rehypeFigures } from './src/lib/rehype-figures.mjs';
 import { rehypeLinks } from './src/lib/rehype-links.mjs';
+import { rehypePagefindIgnore, pluginPagefindIgnore } from './src/lib/pagefind-ignore.mjs';
 
 // Localize the code-block copy button (Expressive Code defaults to en-US).
 pluginFramesTexts.overrideTexts('en', {
@@ -25,13 +26,14 @@ export default defineConfig({
   // KaTeX CSS is loaded by the layout; KaTeX inherits currentColor (white on black).
   markdown: {
     remarkPlugins: [remarkMath],
-    rehypePlugins: [rehypeKatex, rehypeFigures, rehypeLinks],
+    // rehypePagefindIgnore must follow rehypeKatex so the .katex output exists.
+    rehypePlugins: [rehypeKatex, rehypePagefindIgnore, rehypeFigures, rehypeLinks],
   },
   integrations: [
     // Code blocks: titles, line highlighting, copy button. Dark-only, brutalist —
     // square corners, hairline borders, no shadow, mono UI. Refined in the design phase.
     expressiveCode({
-      plugins: [pluginOutputBlocks()],
+      plugins: [pluginOutputBlocks(), pluginPagefindIgnore()],
       themes: ['github-dark'],
       styleOverrides: {
         borderRadius: '0',
