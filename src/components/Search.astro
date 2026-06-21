@@ -156,9 +156,16 @@
     markActive();
     resultsEl?.querySelector('.active')?.scrollIntoView({ block: 'nearest' });
   }
+  // Activating a result must close the palette first — otherwise a result on the
+  // current page (same path, only the #section differs) navigates without an
+  // unload, leaving the palette open and the body scroll-locked over the page.
+  function activate(href: string) {
+    close();
+    location.href = href;
+  }
   function go() {
     const r = rows[sel];
-    if (r) location.href = resolveUrl(r.url);
+    if (r) activate(resolveUrl(r.url));
   }
 
   input?.addEventListener('input', () => {
@@ -189,6 +196,16 @@
 
   document.querySelectorAll('[data-search-trigger]').forEach((b) => b.addEventListener('click', open));
   document.querySelector('[data-search-close]')?.addEventListener('click', close);
+
+  // Plain clicks on a result close the palette, then navigate/scroll; modifier
+  // and middle clicks fall through so "open in new tab" still works.
+  resultsEl?.addEventListener('click', (e) => {
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const a = (e.target as HTMLElement).closest('a.row') as HTMLAnchorElement | null;
+    if (!a) return;
+    e.preventDefault();
+    activate(a.href);
+  });
 </script>
 
 <style>
