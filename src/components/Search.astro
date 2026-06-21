@@ -36,8 +36,10 @@
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let pf: any = null;
   let results: any[] = [];
+  let rows: any[] = []; // flat list of navigable rows (post headers + section rows)
   let sel = 0;
   let debounce: number | undefined;
+  const MAX_SECTIONS = 3; // matching sections shown per post before "+N more"
 
   async function ensurePf() {
     if (pf) return pf;
@@ -76,10 +78,18 @@
     render();
   }
 
+  function markActive() {
+    resultsEl?.querySelectorAll<HTMLElement>('.row').forEach((n) => {
+      n.classList.toggle('active', Number(n.dataset.idx) === sel);
+    });
+  }
+
   function render() {
     if (!resultsEl || !countEl) return;
     const q = input?.value.trim() ?? '';
+    // The badge counts matching posts, not the section rows beneath them.
     countEl.textContent = q && results.length ? String(results.length).padStart(2, '0') : '';
+    rows = [];
     if (!q) {
       resultsEl.innerHTML = '';
       return;
@@ -88,14 +98,43 @@
       resultsEl.innerHTML = '<div class="empty mono">ничего не найдено</div>';
       return;
     }
+    // One group per post: a header row linking to the top of the post, then its
+    // matching sections as indented rows linking to #heading. Pagefind splits a
+    // page into sub_results on headings (those with anchors); the anchor-less
+    // root sub_result is the pre-heading intro. To avoid repeating text, the
+    // header only carries an excerpt when the post has no matching section.
     resultsEl.innerHTML = results
-      .map(
-        (r, i) =>
-          `<a class="result${i === sel ? ' active' : ''}" href="${resolveUrl(r.url)}">` +
-          `<div class="r-title">${r.meta?.title ?? ''}</div>` +
-          `<div class="r-excerpt">${r.excerpt ?? ''}</div></a>`,
-      )
+      .map((r) => {
+        const subs = Array.isArray(r.sub_results) ? r.sub_results : [];
+        const sections = subs.filter((s: any) => typeof s.url === 'string' && s.url.includes('#'));
+        const intro = subs.find((s: any) => typeof s.url === 'string' && !s.url.includes('#'));
+        const headExcerpt = sections.length ? '' : (intro?.excerpt ?? r.excerpt ?? '');
+
+        const headIdx = rows.length;
+        rows.push({ url: r.url });
+        let out =
+          `<a class="row g-post" data-idx="${headIdx}" href="${resolveUrl(r.url)}">` +
+          `<span class="g-title">${r.meta?.title ?? ''}</span>` +
+          (headExcerpt ? `<span class="g-excerpt">${headExcerpt}</span>` : '') +
+          `</a>`;
+
+        for (const s of sections.slice(0, MAX_SECTIONS)) {
+          const idx = rows.length;
+          rows.push({ url: s.url });
+          out +=
+            `<a class="row result" data-idx="${idx}" href="${resolveUrl(s.url)}">` +
+            `<span class="r-section">${s.title ?? ''}</span>` +
+            (s.excerpt ? `<span class="r-excerpt">${s.excerpt}</span>` : '') +
+            `</a>`;
+        }
+        const more = sections.length - Math.min(sections.length, MAX_SECTIONS);
+        if (more > 0) out += `<div class="more mono">+${more} ещё в этой статье</div>`;
+        return `<div class="group">${out}</div>`;
+      })
       .join('');
+
+    if (sel >= rows.length) sel = 0;
+    markActive();
   }
 
   async function runSearch(q: string) {
@@ -112,14 +151,21 @@
   }
 
   function move(d: number) {
-    if (!results.length) return;
-    sel = (sel + d + results.length) % results.length;
-    render();
-    resultsEl?.querySelector('.result.active')?.scrollIntoView({ block: 'nearest' });
+    if (!rows.length) return;
+    sel = (sel + d + rows.length) % rows.length;
+    markActive();
+    resultsEl?.querySelector('.active')?.scrollIntoView({ block: 'nearest' });
+  }
+  // Activating a result must close the palette first — otherwise a result on the
+  // current page (same path, only the #section differs) navigates without an
+  // unload, leaving the palette open and the body scroll-locked over the page.
+  function activate(href: string) {
+    close();
+    location.href = href;
   }
   function go() {
-    const r = results[sel];
-    if (r) location.href = resolveUrl(r.url);
+    const r = rows[sel];
+    if (r) activate(resolveUrl(r.url));
   }
 
   input?.addEventListener('input', () => {
@@ -150,6 +196,16 @@
 
   document.querySelectorAll('[data-search-trigger]').forEach((b) => b.addEventListener('click', open));
   document.querySelector('[data-search-close]')?.addEventListener('click', close);
+
+  // Plain clicks on a result close the palette, then navigate/scroll; modifier
+  // and middle clicks fall through so "open in new tab" still works.
+  resultsEl?.addEventListener('click', (e) => {
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const a = (e.target as HTMLElement).closest('a.row') as HTMLAnchorElement | null;
+    if (!a) return;
+    e.preventDefault();
+    activate(a.href);
+  });
 </script>
 
 <style>
@@ -231,31 +287,66 @@
     overflow-y: auto;
     flex: 1;
   }
-  .results :global(.result) {
+  /* One group per post: a bold post-title header row, then indented section
+     rows (mirrors the nested TOC). Both row types share .row for selection. */
+  .results :global(.group) {
+    padding: 5px 0;
+  }
+  .results :global(.group + .group) {
+    border-top: 1px solid var(--line);
+  }
+  .results :global(.row) {
     display: block;
-    padding: 13px 18px;
     border-left: 2px solid transparent;
     text-decoration: none;
     color: inherit;
   }
-  .results :global(.result.active) {
+  .results :global(.row.active) {
     background: rgba(255, 255, 255, 0.08);
     border-left-color: var(--accent);
   }
-  .results :global(.r-title) {
+  .results :global(.g-post) {
+    padding: 9px 18px 7px;
+  }
+  .results :global(.g-title) {
+    display: block;
     font-family: var(--font-display);
     font-weight: 700;
     font-size: 15.5px;
     line-height: 1.2;
     color: #fff;
   }
-  .results :global(.r-excerpt) {
-    margin-top: 4px;
-    font-size: 13px;
+  .results :global(.g-excerpt) {
+    display: block;
+    margin-top: 3px;
+    font-size: 12.5px;
     line-height: 1.45;
     color: var(--fg-dim);
   }
-  .results :global(.r-excerpt mark) {
+  .results :global(.result) {
+    padding: 7px 18px 7px 34px;
+  }
+  .results :global(.r-section) {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 600;
+    line-height: 1.25;
+    color: rgba(255, 255, 255, 0.9);
+  }
+  .results :global(.r-excerpt) {
+    display: block;
+    margin-top: 2px;
+    font-size: 12.5px;
+    line-height: 1.45;
+    color: var(--fg-dim);
+  }
+  .results :global(.more) {
+    padding: 3px 18px 8px 34px;
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    color: var(--fg-faint);
+  }
+  .results :global(mark) {
     background: none;
     color: #fff;
     font-weight: 600;
